@@ -69,6 +69,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OneByOneQuestionPresenterTests.cs" />
+    <Compile Include="QuestionGroupingTests.cs" />
+    <Compile Include="QuestionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EligibilityQuestions\EligibilityQuestions.csproj">

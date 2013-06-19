@@ -1,35 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using FubuTestingSupport;
 using NUnit.Framework;
 using Rhino.Mocks;
 
 namespace EligibilityQuestions.Tests
 {
-    public class OneByOneQuestionPresenterTests : InteractionContext<OneByOneQuestionPresenter>
+    public class TestModel
+    {
+    }
+
+    public class OneByOneQuestionPresenterTests : InteractionContext<OneByOneQuestionPresenter<TestModel>>
     {
         protected override void beforeEach()
         {
-        }
-
-        [Test]
-        public void questions_can_target_properties_on_result_model()
-        {
-            var first = new Question<EndResultModel>(x => x.LikesBlue);
-            first.Answer = true;
-            var second = new Question<EndResultModel>(x => x.LikesGreen);
-            second.Answer = true;
-            var third = new Question<EndResultModel>(x => x.Birthday);
-            var today = DateTime.Today;
-            third.Answer = today;
-
-            var questions = new[] {first, second, third};
-            var result = new EndResultModel();
-            questions.Each(x => x.SetAnswer(result));
-
-            result.LikesBlue.ShouldBeTrue();
-            result.LikesGreen.Value.ShouldBeTrue();
-            result.Birthday.ShouldEqual(today);
         }
 
         [Test]

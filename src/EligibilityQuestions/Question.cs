@@ -7,14 +7,6 @@ using FubuCore.Reflection;
 
 namespace EligibilityQuestions
 {
-
-    public class EndResultModel
-    {
-        public bool LikesBlue { get; set; }
-        public bool? LikesGreen { get; set; }
-        public DateTime Birthday { get; set; }
-    }
-
     public interface IQuestion
     {
         Accessor Accessor { get; set; }
@@ -22,48 +14,68 @@ namespace EligibilityQuestions
         string HelpText { get; set; }
     }
 
-    public class Question<TResult> : IQuestion
-    {
-        private object _answer;
+    public delegate Question<TResult> NextQuestion<TResult>(Question<TResult> question);
 
-        public Question(Expression<Func<TResult,object>> accessor)
+    public class YesNoQuestion<TResult> : Question<TResult>
+    {
+        private NextQuestion<TResult> _onYes;
+        private NextQuestion<TResult> _onNo;
+
+        public YesNoQuestion(Expression<Func<TResult, bool?>> accessor)
         {
             Accessor = accessor.ToAccessor();
         }
 
+        public YesNoQuestion(Expression<Func<TResult, bool>> accessor)
+        {
+            Accessor = accessor.ToAccessor();
+        }
+
+        public YesNoQuestion<TResult> OnYes(NextQuestion<TResult> onYes)
+        {
+            _onYes = onYes;
+            return this;
+        }
+
+        public YesNoQuestion<TResult> OnNo(NextQuestion<TResult> onNo)
+        {
+            _onNo = onNo;
+            return this;
+        }
+
+        public override NextQuestion<TResult> GetNextQuestion()
+        {
+            return x =>
+            {
+                NextQuestion<TResult> weAreDone = (question => null);
+                _onYes = _onYes ?? weAreDone;
+                _onNo = _onNo ?? weAreDone;
+                var answer = (bool) x.Answer;
+                return answer ? _onYes(x) : _onNo(x);
+            };
+        }
+    }
+
+    public abstract class Question<TResult> : IQuestion
+    {
         public Accessor Accessor { get; set; }
         public string QuestionText { get; set; }
         public string HelpText { get; set; }
+        public object Answer { get; set; }
 
-        public object Answer
+        public abstract NextQuestion<TResult> GetNextQuestion();
+
+        public Question<TResult> AnswerQuestion(object answer)
         {
-            get { return _answer; }
-            set
-            {
-                ValidateSetWillSucceed(value.GetType());
-                _answer = value;
-            }
-        }
-
-        private void ValidateSetWillSucceed(Type valueType)
-        {
-            Action<Type> errorIfIncompatible = type =>
-            {
-                if (type != valueType)
-                {
-                    throw new ArgumentException("wrong property type for answer");
-                }
-            };
-
-            errorIfIncompatible(Accessor.PropertyType.IsNullable()
-                ? Accessor.PropertyType.GetGenericArguments().First()
-                : Accessor.PropertyType);
+            Answer = answer;
+            return GetNextQuestion()(this);
         }
 
         public void SetAnswer(TResult instance)
         {
             Accessor.SetValue(instance, Answer);
         }
+
     }
 
     public interface IQuestionProcessor<TResult>
@@ -88,11 +100,11 @@ namespace EligibilityQuestions
         }
     }
 
-    public class OneByOneQuestionPresenter : IQuestionPresenter
+    public class OneByOneQuestionPresenter<T> : IQuestionPresenter
     {
-        private readonly IQuestionProcessor<EndResultModel> _questionProcessor;
+        private readonly IQuestionProcessor<T> _questionProcessor;
 
-        public OneByOneQuestionPresenter(IQuestionProcessor<EndResultModel> questionProcessor)
+        public OneByOneQuestionPresenter(IQuestionProcessor<T> questionProcessor)
         {
             _questionProcessor = questionProcessor;
         }
