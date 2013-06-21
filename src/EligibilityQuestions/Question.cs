@@ -56,11 +56,33 @@ namespace EligibilityQuestions
         }
     }
 
+    public class DateTimeQuestion<TResult> : Question<TResult>
+    {
+        public DateTimeQuestion(Expression<Func<TResult, DateTime>> accessor)
+        {
+            Accessor = accessor.ToAccessor();
+        }
+
+        public DateTimeQuestion(Expression<Func<TResult, DateTime?>> accessor)
+        {
+            Accessor = accessor.ToAccessor();
+        }
+
+        public override NextQuestion<TResult> GetNextQuestion()
+        {
+            return x =>
+            {
+                return null;
+            };
+        }
+    }
+
     public abstract class Question<TResult> : IQuestion
     {
         public Accessor Accessor { get; set; }
         public string QuestionText { get; set; }
         public string HelpText { get; set; }
+
         public object Answer { get; set; }
 
         public abstract NextQuestion<TResult> GetNextQuestion();

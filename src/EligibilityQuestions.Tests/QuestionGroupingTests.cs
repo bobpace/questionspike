@@ -34,14 +34,6 @@ namespace EligibilityQuestions.Tests
                     x => likesGreenQuestion.OnYes(m => likesRedQuestion)
                 );
 
-//            likesBlueQuestion
-//                .OnYes(
-//                    x => likesGreenQuestion
-//                        .OnYes(m => likesRedQuestion.OnYes(
-//                            y => null))
-//                );
-
-
             theQuestion = likesBlueQuestion;
         }
 
