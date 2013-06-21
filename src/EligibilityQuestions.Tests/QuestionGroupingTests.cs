@@ -10,6 +10,7 @@ namespace EligibilityQuestions.Tests
         private YesNoQuestion<EndResultModel> likesGreenQuestion;
         private YesNoQuestion<EndResultModel> likesRedQuestion;
         private YesNoQuestion<EndResultModel> theQuestion;
+        private DateTimeQuestion<EndResultModel> birthdayQuestion;
 
         [SetUp]
         public void Setup()
@@ -29,9 +30,16 @@ namespace EligibilityQuestions.Tests
                 Answer = true
             };
 
+            birthdayQuestion = new DateTimeQuestion<EndResultModel>(x => x.Birthday)
+            {
+                Answer = DateTime.Now
+            };
+
             likesBlueQuestion
                 .OnYes(
-                    x => likesGreenQuestion.OnYes(m => likesRedQuestion)
+                    x => birthdayQuestion.OnNext(
+                        b => likesGreenQuestion.OnYes(
+                            m => likesRedQuestion))
                 );
 
             theQuestion = likesBlueQuestion;
@@ -42,6 +50,8 @@ namespace EligibilityQuestions.Tests
         {
             theQuestion.Accessor.Name.ShouldEqual("LikesBlue");
             var nextQuestion = theQuestion.AnswerQuestion(true); //i like blue
+            nextQuestion.Accessor.Name.ShouldEqual("Birthday");
+            nextQuestion = nextQuestion.AnswerQuestion(DateTime.Now);
             nextQuestion.Accessor.Name.ShouldEqual("LikesGreen");
             nextQuestion = nextQuestion.AnswerQuestion(true);
             nextQuestion.Accessor.Name.ShouldEqual("LikesRed");

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using FubuCore;
 using FubuCore.Reflection;
 
 namespace EligibilityQuestions
@@ -23,11 +21,15 @@ namespace EligibilityQuestions
 
         public YesNoQuestion(Expression<Func<TResult, bool?>> accessor)
         {
+            _onNo = Done;
+            _onYes = Done;
             Accessor = accessor.ToAccessor();
         }
 
         public YesNoQuestion(Expression<Func<TResult, bool>> accessor)
         {
+            _onNo = Done;
+            _onYes = Done;
             Accessor = accessor.ToAccessor();
         }
 
@@ -47,9 +49,6 @@ namespace EligibilityQuestions
         {
             return x =>
             {
-                NextQuestion<TResult> weAreDone = (question => null);
-                _onYes = _onYes ?? weAreDone;
-                _onNo = _onNo ?? weAreDone;
                 var answer = (bool) x.Answer;
                 return answer ? _onYes(x) : _onNo(x);
             };
@@ -58,27 +57,36 @@ namespace EligibilityQuestions
 
     public class DateTimeQuestion<TResult> : Question<TResult>
     {
+        private NextQuestion<TResult> _onNext;
+
         public DateTimeQuestion(Expression<Func<TResult, DateTime>> accessor)
         {
+            _onNext = Done;
             Accessor = accessor.ToAccessor();
         }
 
         public DateTimeQuestion(Expression<Func<TResult, DateTime?>> accessor)
         {
+            _onNext = Done;
             Accessor = accessor.ToAccessor();
+        }
+
+        public DateTimeQuestion<TResult> OnNext(NextQuestion<TResult> onNext)
+        {
+            _onNext = onNext;
+            return this;
         }
 
         public override NextQuestion<TResult> GetNextQuestion()
         {
-            return x =>
-            {
-                return null;
-            };
+            return x => _onNext(x);
         }
     }
 
     public abstract class Question<TResult> : IQuestion
     {
+        protected NextQuestion<TResult> Done = (x => null);
+
         public Accessor Accessor { get; set; }
         public string QuestionText { get; set; }
         public string HelpText { get; set; }
