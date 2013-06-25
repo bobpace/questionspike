@@ -49,11 +49,14 @@ namespace EligibilityQuestions.Tests
         public void question_grouping_advances_to_next_question_when_answered()
         {
             theQuestion.Accessor.Name.ShouldEqual("LikesBlue");
-            var nextQuestion = theQuestion.AnswerQuestion(true); //i like blue
+            theQuestion.Answer = true;
+            var nextQuestion = theQuestion.NextQuestion;
             nextQuestion.Accessor.Name.ShouldEqual("Birthday");
-            nextQuestion = nextQuestion.AnswerQuestion(DateTime.Now);
+            nextQuestion.Answer = DateTime.Now;
+            nextQuestion = nextQuestion.NextQuestion;
             nextQuestion.Accessor.Name.ShouldEqual("LikesGreen");
-            nextQuestion = nextQuestion.AnswerQuestion(true);
+            nextQuestion.Answer = true;
+            nextQuestion = nextQuestion.NextQuestion;
             nextQuestion.Accessor.Name.ShouldEqual("LikesRed");
         }
 
@@ -61,7 +64,8 @@ namespace EligibilityQuestions.Tests
         public void question_grouping_eventually_runs_out_of_questions()
         {
             theQuestion.Accessor.Name.ShouldEqual("LikesBlue");
-            var nextQuestion = theQuestion.AnswerQuestion(false); //i dont like blue
+            theQuestion.Answer = false;
+            var nextQuestion = theQuestion.NextQuestion; //i dont like blue
             nextQuestion.ShouldBeNull();
         }
 

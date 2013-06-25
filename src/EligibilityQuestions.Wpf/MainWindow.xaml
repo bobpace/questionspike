@@ -1,0 +1,54 @@
+﻿<Window x:Class="EligibilityQuestions.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:eligibilityQuestions="clr-namespace:EligibilityQuestions;assembly=EligibilityQuestions"
+        Title="MainWindow" Height="350" Width="525">
+  <Window.Resources>
+    <DataTemplate DataType="{x:Type eligibilityQuestions:YesNoQuestion}">
+      <StackPanel Grid.Row="1"
+                  Margin="10">
+        <TextBlock Text="{Binding QuestionText}"
+                   Style="{StaticResource HeaderStyle}" />
+        <Grid>
+          <TabControl Margin="-1,0,-1,-1"
+                      Style="{StaticResource TabControlEligibilityStyle}">
+            <TabItem Template="{StaticResource HiddenTabTemplate}">
+              <TabItem.Style>
+                <Style TargetType="TabItem">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Answer, Mode=TwoWay}"
+                                 Value="{x:Null}">
+                      <Setter Property="IsSelected"
+                              Value="True" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TabItem.Style>
+            </TabItem>
+            <TabItem Template="{StaticResource TabItemTemplate}"
+                     IsSelected="{Binding Path=Answer, Converter={StaticResource BoolNegationConverter}, Mode=TwoWay}"
+                     Header="No">
+            </TabItem>
+            <TabItem Header="Yes"
+                     IsSelected="{Binding Path=Answer, Converter={StaticResource NullableBooleanConverter}, Mode=TwoWay}"
+                     Template="{StaticResource TabItemTemplate}">
+                <StackPanel Margin="10">
+                    <TextBlock Text="When did you, or will you, lose your employer coverage?"
+                               Style="{StaticResource SubHeaderStyle}" />
+                </StackPanel>
+            </TabItem>
+          </TabControl>
+        </Grid>
+      </StackPanel>
+    </DataTemplate>
+  </Window.Resources>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <ContentControl Content="{Binding}" />
+
+  </Grid>
+</Window>

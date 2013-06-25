@@ -1,20 +1,9 @@
-﻿using System;
-using FubuTestingSupport;
-using NUnit.Framework;
-using Rhino.Mocks;
+﻿using NUnit.Framework;
 
 namespace EligibilityQuestions.Tests
 {
-    public class TestModel
+    public class OneByOneQuestionPresenterTests
     {
-    }
-
-    public class OneByOneQuestionPresenterTests : InteractionContext<OneByOneQuestionPresenter<TestModel>>
-    {
-        protected override void beforeEach()
-        {
-        }
-
         [Test]
         public void may_have_more_than_one_nested_question()
         {

@@ -1,0 +1,303 @@
+﻿<Application x:Class="EligibilityQuestions.Wpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Converters="clr-namespace:EligibilityQuestions.Wpf.Converters"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+    <Converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+    <Converters:NullableBooleanConverter x:Key="NullableBooleanConverter" />
+
+  <Color x:Key="Color_White">#FFFFFF</Color>
+  <Color x:Key="Color_Black">#000000</Color>
+  <Color x:Key="Color_Gray2">#5E5E5E</Color>
+  <Color x:Key="Color_Gray1">#545454</Color>
+  <Color x:Key="Color_Gray0">#575757</Color>
+  <Color x:Key="Color_Gray-0">#606060</Color>
+  <Color x:Key="Color_Gray-0.5">#646464</Color>
+  <Color x:Key="Color_Gray-1">#AEAEAE</Color>
+  <Color x:Key="Color_Gray-2">#DDDDDD</Color>
+  <Color x:Key="Color_Gray-3">#E9E9E9</Color>
+  <Color x:Key="Color_Brown0">#502C33</Color>
+  <Color x:Key="Color_Blue+2">#0C1F41</Color>
+  <Color x:Key="Color_Blue+1">#244F90</Color>
+  <Color x:Key="Color_Blue0">#2D5CA9</Color>
+  <Color x:Key="Color_Blue-1">#6897CA</Color>
+  <Color x:Key="Color_Blue-2">#A6C3E6</Color>
+  <Color x:Key="Color_Blue-3">#D9E5F2</Color>
+  <Color x:Key="Color_Blue-4">#E4EBF3</Color>
+  <Color x:Key="Color_Yellow0">#FFEE10</Color>
+  <Color x:Key="Color_Yellow-1">#FFF67F</Color>
+  <Color x:Key="Color_Yellow-2">#FFFDDF</Color>
+  <Color x:Key="Color_Purple0">#350A5F</Color>
+  <Color x:Key="Color_Red0">#B21F24</Color>
+  <Color x:Key="Color_Red-1">#D98F92</Color>
+  <Color x:Key="Color_Red-2">#F1E5E5</Color>
+  <Color x:Key="Color_Rust0">#923908</Color>
+  <Color x:Key="Color_Green+2">#002F11</Color>
+  <Color x:Key="Color_Green0">#00A33D</Color>
+  <Color x:Key="Color_Green-1">#80D19E</Color>
+  <Color x:Key="Color_Green-2">#DFF4E7</Color>
+  <Color x:Key="Color_Orange0">#ff6310</Color>
+  <Color x:Key="Color_Orange-1">#FDE8DE</Color>
+  <Color x:Key="goldenBrown">#b27212</Color>
+  <Color x:Key="Color_BackgroundGray">#BBCCC5</Color>
+  <Color x:Key="Color_HeaderBackground">#E8F3EE</Color>
+  <Color x:Key="Color_LinkBlue">#003CFF</Color>
+
+  <SolidColorBrush x:Key="Brush_White"
+                   Color="{StaticResource Color_White}" />
+  <SolidColorBrush x:Key="Brush_Black"
+                   Color="{StaticResource Color_Black}" />
+  <SolidColorBrush x:Key="Brush_Gray2"
+                   Color="{StaticResource Color_Gray2}" />
+  <SolidColorBrush x:Key="Brush_Gray1"
+                   Color="{StaticResource Color_Gray1}" />
+  <SolidColorBrush x:Key="Brush_Gray0"
+                   Color="{StaticResource Color_Gray0}" />
+  <SolidColorBrush x:Key="Brush_Gray-0"
+                   Color="{StaticResource Color_Gray-0}" />
+  <SolidColorBrush x:Key="Brush_Gray-0.5"
+                   Color="{StaticResource Color_Gray-0.5}" />
+  <SolidColorBrush x:Key="Brush_Gray-1"
+                   Color="{StaticResource Color_Gray-1}" />
+  <SolidColorBrush x:Key="Brush_Gray-1_Opacity0.5"
+                   Color="{StaticResource Color_Gray-1}"
+                   Opacity="0.5" />
+  <SolidColorBrush x:Key="Brush_Gray-2"
+                   Color="{StaticResource Color_Gray-2}" />
+  <SolidColorBrush x:Key="Brush_Gray-3"
+                   Color="{StaticResource Color_Gray-3}" />
+  <SolidColorBrush x:Key="Brush_Gray-3_Opacity0.5"
+                   Color="{StaticResource Color_Gray-3}"
+                   Opacity="0.5" />
+  <SolidColorBrush x:Key="Brush_Brown0"
+                   Color="{StaticResource Color_Brown0}" />
+  <SolidColorBrush x:Key="Brush_Blue+2"
+                   Color="{StaticResource Color_Blue+2}" />
+  <SolidColorBrush x:Key="Brush_Blue+1"
+                   Color="{StaticResource Color_Blue+1}" />
+  <SolidColorBrush x:Key="Brush_Blue0"
+                   Color="{StaticResource Color_Blue0}" />
+  <SolidColorBrush x:Key="Brush_Blue-1"
+                   Color="{StaticResource Color_Blue-1}" />
+  <SolidColorBrush x:Key="Brush_Blue-2"
+                   Color="{StaticResource Color_Blue-2}" />
+  <SolidColorBrush x:Key="Brush_Blue-3"
+                   Color="{StaticResource Color_Blue-3}" />
+  <SolidColorBrush x:Key="Brush_Blue-4"
+                   Color="{StaticResource Color_Blue-4}" />
+  <SolidColorBrush x:Key="Brush_Yellow0"
+                   Color="{StaticResource Color_Yellow0}" />
+  <SolidColorBrush x:Key="Brush_Yellow-1"
+                   Color="{StaticResource Color_Yellow-1}" />
+  <SolidColorBrush x:Key="Brush_Yellow-2"
+                   Color="{StaticResource Color_Yellow-2}" />
+  <SolidColorBrush x:Key="Brush_Purple0"
+                   Color="{StaticResource Color_Purple0}" />
+  <SolidColorBrush x:Key="Brush_Red0"
+                   Color="{StaticResource Color_Red0}" />
+  <SolidColorBrush x:Key="Brush_Red-1"
+                   Color="{StaticResource Color_Red-1}" />
+  <SolidColorBrush x:Key="Brush_Red-2"
+                   Color="{StaticResource Color_Red-2}" />
+  <SolidColorBrush x:Key="Brush_Rust0"
+                   Color="{StaticResource Color_Rust0}" />
+  <SolidColorBrush x:Key="Brush_Green+2"
+                   Color="{StaticResource Color_Green+2}" />
+  <SolidColorBrush x:Key="Brush_Green0"
+                   Color="{StaticResource Color_Green0}" />
+  <SolidColorBrush x:Key="Brush_Green-1"
+                   Color="{StaticResource Color_Green-1}" />
+  <SolidColorBrush x:Key="Brush_Green-2"
+                   Color="{StaticResource Color_Green-2}" />
+  <SolidColorBrush x:Key="Brush_Orange0"
+                   Color="{StaticResource Color_Orange0}" />
+  <SolidColorBrush x:Key="Brush_Orange-1"
+                   Color="{StaticResource Color_Orange-1}" />
+  <SolidColorBrush x:Key="goldenBrownBrush"
+                   Color="{StaticResource goldenBrown}" />
+  <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                   Color="{StaticResource Color_Blue-1}" />
+  <SolidColorBrush x:Key="Brush_BackgroundGray"
+                   Color="{StaticResource Color_BackgroundGray}" />
+  <SolidColorBrush x:Key="Brush_HeaderBackground"
+                   Color="{StaticResource Color_HeaderBackground}" />
+  <SolidColorBrush x:Key="Brush_LinkBlue"
+                   Color="{StaticResource Color_LinkBlue}" />
+  
+  
+  <SolidColorBrush x:Key="LightGrayBrush"
+                   Color="#8E8E8E" />
+
+  <LinearGradientBrush x:Key="BlueToWhiteGradientBrush"
+                       StartPoint=".5,0"
+                       EndPoint=".5,1">
+    <GradientStop Offset="0"
+                  Color="{StaticResource Color_Blue-4}" />
+    <GradientStop Offset="1"
+                  Color="White" />
+  </LinearGradientBrush>
+
+  <ControlTemplate x:Key="HiddenTabTemplate"
+                   TargetType="{x:Type TabItem}">
+  </ControlTemplate>
+
+  <ControlTemplate x:Key="TabItemTemplate"
+                         TargetType="{x:Type TabItem}">
+    <Grid  x:Name="Grid"
+           Height="30"
+           Width="60">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <Border x:Name="PART_Border"
+              SnapsToDevicePixels="True"
+              BorderBrush="{StaticResource Brush_Blue-2}"
+              Grid.ColumnSpan="2">
+        <Border.Style>
+          <Style TargetType="{x:Type Border}">
+            <Setter Property="BorderThickness"
+                    Value="0,0,0,1"/>
+            <Setter Property="Background"
+                    Value="Transparent"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, Path=IsSelected}"
+                           Value="True">
+                <Setter Property="BorderThickness"
+                        Value="1,1,1,0"/>
+                <Setter Property="Background"
+                        Value="{StaticResource Brush_Blue-4}"/>
+              </DataTrigger>
+              <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, Path=Content}"
+                           Value="{x:Null}">
+                <Setter Property="Background"
+                        Value="Transparent"/>
+              </DataTrigger>
+              <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=SelectedContent}"
+                           Value="{x:Null}">
+                <Setter Property="BorderThickness"
+                        Value="0"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </Border.Style>
+      </Border>
+      <Ellipse x:Name="PART_OuterCircle"
+               Width="12"
+               Height="12"
+               Stroke="{StaticResource Brush_Blue+1}"
+               StrokeThickness="1"
+               SnapsToDevicePixels="True"
+               Fill="White"
+               VerticalAlignment="Center"
+               Cursor="Hand"
+               Grid.Column="0"/>
+      <Ellipse x:Name="PART_InnerCircle"
+               Width="5"
+               Height="5"
+               Fill="{StaticResource Brush_Blue+1}"
+               Margin="5"
+               SnapsToDevicePixels="True"
+               Cursor="Hand"
+               Visibility="Hidden"
+               VerticalAlignment="Center"
+               Grid.Column="0"/>
+      <ContentPresenter x:Name="PART_ContentSite"
+                        VerticalAlignment="Center"
+                        ContentSource="Header"
+                        Grid.Column="1" />
+    </Grid>
+    <ControlTemplate.Triggers>
+      <Trigger Property="IsSelected"
+               Value="True">
+        <Setter TargetName="PART_ContentSite"
+                Property="TextElement.Foreground"
+                Value="Black" />
+        <Setter TargetName="PART_InnerCircle"
+                Property="Visibility"
+                Value="Visible" />
+      </Trigger>
+    </ControlTemplate.Triggers>
+  </ControlTemplate>
+
+	<Style x:Key="Control_ErrorStyle"
+		   TargetType="FrameworkElement">
+		<Style.Triggers>
+			<Trigger Property="Validation.HasError"
+					 Value="True">
+				<Setter Property="ToolTip"
+						Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+  <Style x:Key="TabControlEligibilityStyle" TargetType="{x:Type TabControl}" BasedOn="{StaticResource Control_ErrorStyle}">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type TabControl}">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+
+						<TabPanel IsItemsHost="True"
+											Grid.Row="0"
+											Grid.Column="0"/>
+
+						<Border x:Name="PART_BorderTop"
+										BorderThickness="0,0,0,1"
+										BorderBrush="{StaticResource Brush_Blue-2}"
+										SnapsToDevicePixels="True"
+										Grid.Row="0"
+										Grid.Column="1"/>
+
+						<Border x:Name="PART_Border"
+										BorderBrush="{StaticResource Brush_Blue-2}"
+										BorderThickness="1,0,1,1"
+										Background="{StaticResource BlueToWhiteGradientBrush}"
+										SnapsToDevicePixels="True"
+										Grid.Row="1"
+										Grid.ColumnSpan="2">
+							<ContentPresenter x:Name="PART_SelectedContentHost"
+																ContentSource="SelectedContent"/>
+						</Border>
+					</Grid>
+					<ControlTemplate.Triggers>
+						<Trigger Property="SelectedContent" Value="{x:Null}">
+							<Setter TargetName="PART_Border" Property="Visibility" Value="Collapsed" />
+							<Setter TargetName="PART_BorderTop" Property="Visibility" Value="Collapsed" />
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+        <Style x:Key="HeaderStyle"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="14" />
+            <Setter Property="FontWeight"
+                    Value="Bold" />
+        </Style>
+
+
+        <Style x:Key="SubHeaderStyle"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="12" />
+            <Setter Property="FontWeight"
+                    Value="Bold" />
+            <Setter Property="TextWrapping"
+                    Value="Wrap" />
+        </Style>
+
+         
+    </Application.Resources>
+</Application>
