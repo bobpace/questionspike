@@ -14,29 +14,24 @@ namespace EligibilityQuestions.Tests
         [Test]
         public void questions_can_target_properties_on_result_model()
         {
-            likesBlueQuestion = new YesNoQuestion();
-            likesBlueQuestion.ForAnswer<EndResultModel>(x => x.LikesBlue);
-            likesBlueQuestion.Answer = true;
+            likesBlueQuestion = Question.ForAnswer<EndResultModel>(x => x.LikesBlue);
+            likesBlueQuestion.Answer = false;
 
-            likesGreenQuestion = new YesNoQuestion();
-            likesGreenQuestion.ForAnswer<EndResultModel>(x => x.LikesGreen);
+            likesGreenQuestion = Question.ForAnswer<EndResultModel>(x => x.LikesGreen);
             likesGreenQuestion.Answer = true;
 
             var now = DateTime.Now;
 
-            birthdayQuestion = new DateTimeQuestion();
-            birthdayQuestion.ForAnswer<EndResultModel>(x => x.BirthDay);
+            birthdayQuestion = Question.ForAnswer<EndResultModel>(x => x.BirthDay);
             birthdayQuestion.Answer = now;
 
-            var questions = new Question[]
-            {
-                likesBlueQuestion, likesGreenQuestion, birthdayQuestion
-            };
+            likesBlueQuestion.OnNo(x => likesGreenQuestion);
+            likesGreenQuestion.OnYes(x => birthdayQuestion);
 
-            var builder = new ModelBuilder<EndResultModel>(questions);
+            var builder = new ModelBuilder<EndResultModel>(likesBlueQuestion);
             var result = builder.BuildModel();
 
-            result.LikesBlue.ShouldBeTrue();
+            result.LikesBlue.ShouldBeFalse();
             result.LikesGreen.Value.ShouldBeTrue();
             result.BirthDay.ShouldEqual(now);
         }

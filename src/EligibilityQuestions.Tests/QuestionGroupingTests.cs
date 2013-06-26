@@ -15,20 +15,16 @@ namespace EligibilityQuestions.Tests
         [SetUp]
         public void Setup()
         {
-            likesBlueQuestion = new YesNoQuestion();
-            likesBlueQuestion.ForAnswer<EndResultModel>(x => x.LikesBlue);
+            likesBlueQuestion = Question.ForAnswer<EndResultModel>(x => x.LikesBlue);
             likesBlueQuestion.Answer = true;
 
-            likesGreenQuestion = new YesNoQuestion();
-            likesGreenQuestion.ForAnswer<EndResultModel>(x => x.LikesGreen);
+            likesGreenQuestion = Question.ForAnswer<EndResultModel>(x => x.LikesGreen);
             likesGreenQuestion.Answer = true;
 
-            likesRedQuestion = new YesNoQuestion();
-            likesRedQuestion.ForAnswer<EndResultModel>(x => x.LikesRed);
+            likesRedQuestion = Question.ForAnswer<EndResultModel>(x => x.LikesGreen);
             likesRedQuestion.Answer = true;
 
-            birthdayQuestion = new DateTimeQuestion();
-            birthdayQuestion.ForAnswer<EndResultModel>(x => x.Birthday);
+            birthdayQuestion = Question.ForAnswer<EndResultModel>(x => x.Birthday);
             birthdayQuestion.Answer = DateTime.Now;
 
             likesBlueQuestion

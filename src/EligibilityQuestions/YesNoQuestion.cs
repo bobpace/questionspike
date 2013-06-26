@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-
-namespace EligibilityQuestions
+﻿namespace EligibilityQuestions
 {
     public class YesNoQuestion : Question
     {
@@ -12,12 +9,6 @@ namespace EligibilityQuestions
         {
             _onNo = Done;
             _onYes = Done;
-        }
-
-        public YesNoQuestion ForAnswer<TResult>(Expression<Func<TResult, bool?>> accessor)
-        {
-            Accessor = accessor.ToAccessor();
-            return this;
         }
 
         public YesNoQuestion OnYes(NextQuestion onYes)

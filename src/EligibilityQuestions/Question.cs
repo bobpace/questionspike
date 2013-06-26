@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using ExtendHealth.Ssc.Framework;
 using FubuCore;
 using FubuCore.Reflection;
@@ -31,6 +32,24 @@ namespace EligibilityQuestions
 
         public abstract NextQuestion GetNextQuestion();
 
+        public static YesNoQuestion ForAnswer<TResult>(Expression<Func<TResult, bool?>> accessor)
+        {
+            var question = new YesNoQuestion
+            {
+                Accessor = accessor.ToAccessor()
+            };
+            return question;
+        }
+
+        public static DateTimeQuestion ForAnswer<TResult>(Expression<Func<TResult, DateTime?>> accessor)
+        {
+            var question = new DateTimeQuestion
+            {
+                Accessor = accessor.ToAccessor()
+            };
+            return question;
+        }
+
         public Question NextQuestion
         {
             get
@@ -40,21 +59,32 @@ namespace EligibilityQuestions
                 return question;
             }
         }
+
+        public IEnumerable<Question> AnsweredQuestions()
+        {
+            var question = this;
+            while (question != null)
+            {
+                yield return question;
+                question = question.NextQuestion;
+            }
+        }
     }
 
     public class ModelBuilder<TResult> where TResult : class, new()
     {
-        private readonly IEnumerable<Question> _questions;
+        private readonly Question _firstQuestion;
 
-        public ModelBuilder(IEnumerable<Question> questions)
+        public ModelBuilder(Question firstQuestion)
         {
-            _questions = questions;
+            _firstQuestion = firstQuestion;
         }
 
         public TResult BuildModel()
         {
             var result = new TResult();
-            _questions
+
+            _firstQuestion.AnsweredQuestions()
                 .Select(x => new {x.Accessor, x.Answer})
                 .Each(x => x.Accessor.SetValue(result, x.Answer));
             return result;

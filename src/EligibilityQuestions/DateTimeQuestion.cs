@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-
-namespace EligibilityQuestions
+﻿namespace EligibilityQuestions
 {
     public class DateTimeQuestion : Question
     {
@@ -10,12 +7,6 @@ namespace EligibilityQuestions
         public DateTimeQuestion()
         {
             _onNext = Done;
-        }
-
-        public DateTimeQuestion ForAnswer<TResult>(Expression<Func<TResult, DateTime?>> accessor)
-        {
-            Accessor = accessor.ToAccessor();
-            return this;
         }
 
         public DateTimeQuestion OnNext(NextQuestion onNext)
