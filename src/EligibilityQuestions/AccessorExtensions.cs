@@ -4,6 +4,7 @@ using FubuCore.Reflection;
 
 namespace EligibilityQuestions
 {
+    //TODO: move these to FubuCore, it currently has an overload that supports object but not an open generic for TProperty
     public static class AccessorExtensions
     {
         public static Accessor ToAccessor<T, TProperty>(this Expression<Func<T, TProperty>> expression)

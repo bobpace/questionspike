@@ -7,50 +7,45 @@ namespace EligibilityQuestions.Tests
 {
     public class QuestionTests
     {
+        private YesNoQuestion likesBlueQuestion;
+        private YesNoQuestion likesGreenQuestion;
+        private DateTimeQuestion birthdayQuestion;
+
         [Test]
         public void questions_can_target_properties_on_result_model()
         {
-            var first = new YesNoQuestion<EndResultModel>(x => x.LikesBlue)
-            {
-                Answer = true
-            };
-            var second = new YesNoQuestion<EndResultModel>(x => x.LikesGreen)
-            {
-                Answer = true
-            };
+            likesBlueQuestion = new YesNoQuestion();
+            likesBlueQuestion.ForAnswer<EndResultModel>(x => x.LikesBlue);
+            likesBlueQuestion.Answer = true;
+
+            likesGreenQuestion = new YesNoQuestion();
+            likesGreenQuestion.ForAnswer<EndResultModel>(x => x.LikesGreen);
+            likesGreenQuestion.Answer = true;
 
             var now = DateTime.Now;
 
-            var third = new DateTimeQuestion<EndResultModel>(x => x.BirthDay)
+            birthdayQuestion = new DateTimeQuestion();
+            birthdayQuestion.ForAnswer<EndResultModel>(x => x.BirthDay);
+            birthdayQuestion.Answer = now;
+
+            var questions = new Question[]
             {
-                Answer = now.AddYears(-120)
+                likesBlueQuestion, likesGreenQuestion, birthdayQuestion
             };
 
-            var fourth = new DateTimeQuestion<EndResultModel>(x => x.DeathDay)
-            {
-                Answer = now
-            };
-
-            var questions = new Question<EndResultModel>[]
-            {
-                first, second, third, fourth
-            };
-
-            var result = new EndResultModel();
-            questions.Each(x => x.SetAnswer(result));
+            var builder = new ModelBuilder<EndResultModel>(questions);
+            var result = builder.BuildModel();
 
             result.LikesBlue.ShouldBeTrue();
             result.LikesGreen.Value.ShouldBeTrue();
-            result.BirthDay.ShouldEqual(now.AddYears(-120));
-            result.DeathDay.Value.ShouldEqual(now);
+            result.BirthDay.ShouldEqual(now);
         }
 
         public class EndResultModel
         {
             public bool LikesBlue { get; set; }
             public bool? LikesGreen { get; set; }
-            public DateTime? DeathDay { get; set; }
-            public DateTime BirthDay { get; set; }
+            public DateTime? BirthDay { get; set; }
         }
     }
 

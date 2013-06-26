@@ -3,29 +3,28 @@ using System.Linq.Expressions;
 
 namespace EligibilityQuestions
 {
-    public class DateTimeQuestion<TResult> : Question<TResult>
+    public class DateTimeQuestion : Question
     {
-        private NextQuestion<TResult> _onNext;
+        private NextQuestion _onNext;
 
-        public DateTimeQuestion(Expression<Func<TResult, DateTime>> accessor)
+        public DateTimeQuestion()
         {
             _onNext = Done;
-            Accessor = accessor.ToAccessor();
         }
 
-        public DateTimeQuestion(Expression<Func<TResult, DateTime?>> accessor)
+        public DateTimeQuestion ForAnswer<TResult>(Expression<Func<TResult, DateTime?>> accessor)
         {
-            _onNext = Done;
             Accessor = accessor.ToAccessor();
+            return this;
         }
 
-        public DateTimeQuestion<TResult> OnNext(NextQuestion<TResult> onNext)
+        public DateTimeQuestion OnNext(NextQuestion onNext)
         {
             _onNext = onNext;
             return this;
         }
 
-        public override NextQuestion<TResult> GetNextQuestion()
+        public override NextQuestion GetNextQuestion()
         {
             return x => _onNext(x);
         }

@@ -28,14 +28,12 @@
             <TabItem Template="{StaticResource TabItemTemplate}"
                      IsSelected="{Binding Path=Answer, Converter={StaticResource BoolNegationConverter}, Mode=TwoWay}"
                      Header="No">
+              <ContentControl Content="{Binding NextQuestion}" />
             </TabItem>
             <TabItem Header="Yes"
                      IsSelected="{Binding Path=Answer, Converter={StaticResource NullableBooleanConverter}, Mode=TwoWay}"
                      Template="{StaticResource TabItemTemplate}">
-                <StackPanel Margin="10">
-                    <TextBlock Text="When did you, or will you, lose your employer coverage?"
-                               Style="{StaticResource SubHeaderStyle}" />
-                </StackPanel>
+              <ContentControl Content="{Binding NextQuestion}" />
             </TabItem>
           </TabControl>
         </Grid>

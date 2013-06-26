@@ -6,34 +6,30 @@ namespace EligibilityQuestions.Tests
 {
     public class QuestionGroupingTests
     {
-        private YesNoQuestion<EndResultModel> likesBlueQuestion;
-        private YesNoQuestion<EndResultModel> likesGreenQuestion;
-        private YesNoQuestion<EndResultModel> likesRedQuestion;
-        private YesNoQuestion<EndResultModel> theQuestion;
-        private DateTimeQuestion<EndResultModel> birthdayQuestion;
+        private YesNoQuestion likesBlueQuestion;
+        private YesNoQuestion likesGreenQuestion;
+        private YesNoQuestion likesRedQuestion;
+        private YesNoQuestion theQuestion;
+        private DateTimeQuestion birthdayQuestion;
 
         [SetUp]
         public void Setup()
         {
-            likesBlueQuestion = new YesNoQuestion<EndResultModel>(x => x.LikesBlue)
-            {
-                Answer = true
-            };
+            likesBlueQuestion = new YesNoQuestion();
+            likesBlueQuestion.ForAnswer<EndResultModel>(x => x.LikesBlue);
+            likesBlueQuestion.Answer = true;
 
-            likesGreenQuestion = new YesNoQuestion<EndResultModel>(x => x.LikesGreen)
-            {
-                Answer = true
-            };
+            likesGreenQuestion = new YesNoQuestion();
+            likesGreenQuestion.ForAnswer<EndResultModel>(x => x.LikesGreen);
+            likesGreenQuestion.Answer = true;
 
-            likesRedQuestion = new YesNoQuestion<EndResultModel>(x => x.LikesRed)
-            {
-                Answer = true
-            };
+            likesRedQuestion = new YesNoQuestion();
+            likesRedQuestion.ForAnswer<EndResultModel>(x => x.LikesRed);
+            likesRedQuestion.Answer = true;
 
-            birthdayQuestion = new DateTimeQuestion<EndResultModel>(x => x.Birthday)
-            {
-                Answer = DateTime.Now
-            };
+            birthdayQuestion = new DateTimeQuestion();
+            birthdayQuestion.ForAnswer<EndResultModel>(x => x.Birthday);
+            birthdayQuestion.Answer = DateTime.Now;
 
             likesBlueQuestion
                 .OnYes(
@@ -65,9 +61,10 @@ namespace EligibilityQuestions.Tests
         {
             theQuestion.Accessor.Name.ShouldEqual("LikesBlue");
             theQuestion.Answer = false;
-            var nextQuestion = theQuestion.NextQuestion; //i dont like blue
+            var nextQuestion = theQuestion.NextQuestion;
             nextQuestion.ShouldBeNull();
         }
+
 
         public class EndResultModel
         {

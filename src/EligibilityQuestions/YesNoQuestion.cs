@@ -3,43 +3,36 @@ using System.Linq.Expressions;
 
 namespace EligibilityQuestions
 {
-    public class YesNoQuestion
+    public class YesNoQuestion : Question
     {
-        public string QuestionText { get; set; }
-    }
+        private NextQuestion _onYes;
+        private NextQuestion _onNo;
 
-    public class YesNoQuestion<TResult> : Question<TResult>
-    {
-        private NextQuestion<TResult> _onYes;
-        private NextQuestion<TResult> _onNo;
-
-        public YesNoQuestion(Expression<Func<TResult, bool?>> accessor)
+        public YesNoQuestion()
         {
             _onNo = Done;
             _onYes = Done;
-            Accessor = accessor.ToAccessor();
         }
 
-        public YesNoQuestion(Expression<Func<TResult, bool>> accessor)
+        public YesNoQuestion ForAnswer<TResult>(Expression<Func<TResult, bool?>> accessor)
         {
-            _onNo = Done;
-            _onYes = Done;
             Accessor = accessor.ToAccessor();
+            return this;
         }
 
-        public YesNoQuestion<TResult> OnYes(NextQuestion<TResult> onYes)
+        public YesNoQuestion OnYes(NextQuestion onYes)
         {
             _onYes = onYes;
             return this;
         }
 
-        public YesNoQuestion<TResult> OnNo(NextQuestion<TResult> onNo)
+        public YesNoQuestion OnNo(NextQuestion onNo)
         {
             _onNo = onNo;
             return this;
         }
 
-        public override NextQuestion<TResult> GetNextQuestion()
+        public override NextQuestion GetNextQuestion()
         {
             return x =>
             {

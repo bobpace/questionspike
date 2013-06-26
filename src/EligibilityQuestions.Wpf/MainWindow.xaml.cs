@@ -23,16 +23,24 @@ namespace EligibilityQuestions.Wpf
         public MainWindow()
         {
             InitializeComponent();
-//            var question = new YesNoQuestion<TestModel>(x => x.LikesBlue)
-//            {
-//                QuestionText = "Do you like blue?",
-//                //Answer = true
-//            };
-//
-//            question.OnYes(oldQuestion => new YesNoQuestion<TestModel>(x => x.LikesGreen));
-            var question = new YesNoQuestion {QuestionText = "blah"};
 
-            DataContext = question;
+            var firstQuestion = new YesNoQuestion();
+            firstQuestion.ForAnswer<TestModel>(x => x.LikesBlue);
+            firstQuestion.QuestionText = "Do you like blue?";
+
+            var secondQuestion = new YesNoQuestion();
+            secondQuestion.ForAnswer<TestModel>(x => x.LikesGreen);
+            secondQuestion.QuestionText = "Do you like green?";
+
+            var thirdQuestion = new YesNoQuestion();
+            thirdQuestion.ForAnswer<TestModel>(x => x.LikesRed);
+            thirdQuestion.QuestionText = "Do you like red?";
+
+            firstQuestion.OnNo(x => secondQuestion);
+
+            secondQuestion.OnYes(x => thirdQuestion);
+
+            DataContext = firstQuestion;
         }
     }
 }

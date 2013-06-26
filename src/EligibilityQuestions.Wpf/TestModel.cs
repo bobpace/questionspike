@@ -4,5 +4,6 @@
     {
         public bool? LikesBlue { get; set; }
         public bool? LikesGreen { get; set; }
+        public bool? LikesRed { get; set; }
     }
 }

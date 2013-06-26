@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using ExtendHealth.Ssc.Framework;
 using FubuCore;
 using FubuCore.Reflection;
 
 namespace EligibilityQuestions
 {
-    public delegate Question<TResult> NextQuestion<TResult>(Question<TResult> question);
+    public delegate Question NextQuestion(Question question);
 
-    public abstract class Question<TResult> : NotifyPropertyChangedBase, IQuestion
+    public abstract class Question : NotifyPropertyChangedBase
     {
-        protected NextQuestion<TResult> Done = (x => null);
+        protected NextQuestion Done = (x => null);
         private object _answer;
 
         public Accessor Accessor { get; set; }
@@ -27,20 +29,36 @@ namespace EligibilityQuestions
             }
         }
 
-        public abstract NextQuestion<TResult> GetNextQuestion();
+        public abstract NextQuestion GetNextQuestion();
 
-        public Question<TResult> NextQuestion
+        public Question NextQuestion
         {
             get
             {
                 if (Answer == null) return null;
-                return GetNextQuestion()(this);
+                var question = GetNextQuestion()(this);
+                return question;
             }
         }
+    }
 
-        public void SetAnswer(TResult instance)
+    public class ModelBuilder<TResult> where TResult : class, new()
+    {
+        private readonly IEnumerable<Question> _questions;
+
+        public ModelBuilder(IEnumerable<Question> questions)
         {
-            Accessor.SetValue(instance, Answer);
+            _questions = questions;
         }
+
+        public TResult BuildModel()
+        {
+            var result = new TResult();
+            _questions
+                .Select(x => new {x.Accessor, x.Answer})
+                .Each(x => x.Accessor.SetValue(result, x.Answer));
+            return result;
+        }
+        
     }
 }
