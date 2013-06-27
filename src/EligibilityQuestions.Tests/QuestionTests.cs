@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using FubuTestingSupport;
 using NUnit.Framework;
 
@@ -9,39 +8,58 @@ namespace EligibilityQuestions.Tests
     {
         private YesNoQuestion likesBlueQuestion;
         private YesNoQuestion likesGreenQuestion;
+        private YesNoQuestion likesRedQuestion;
+        private YesNoQuestion theQuestion;
         private DateTimeQuestion birthdayQuestion;
 
-        [Test]
-        public void questions_can_target_properties_on_result_model()
+        [SetUp]
+        public void Setup()
         {
             likesBlueQuestion = Question.ForAnswer<EndResultModel>(x => x.LikesBlue);
-            likesBlueQuestion.Answer = false;
-
             likesGreenQuestion = Question.ForAnswer<EndResultModel>(x => x.LikesGreen);
-            likesGreenQuestion.Answer = true;
+            likesRedQuestion = Question.ForAnswer<EndResultModel>(x => x.LikesRed);
+            birthdayQuestion = Question.ForAnswer<EndResultModel>(x => x.Birthday);
 
-            var now = DateTime.Now;
+            likesBlueQuestion
+                .OnYes(
+                    x => birthdayQuestion.OnNext(
+                        b => likesGreenQuestion.OnYes(
+                            m => likesRedQuestion))
+                );
 
-            birthdayQuestion = Question.ForAnswer<EndResultModel>(x => x.BirthDay);
-            birthdayQuestion.Answer = now;
+            theQuestion = likesBlueQuestion;
+        }
 
-            likesBlueQuestion.OnNo(x => likesGreenQuestion);
-            likesGreenQuestion.OnYes(x => birthdayQuestion);
+        [Test]
+        public void question_grouping_advances_to_next_question_when_answered()
+        {
+            theQuestion.Accessor.Name.ShouldEqual("LikesBlue");
+            theQuestion.Answer = true;
+            var nextQuestion = theQuestion.NextQuestion;
+            nextQuestion.Accessor.Name.ShouldEqual("Birthday");
+            nextQuestion.Answer = DateTime.Now;
+            nextQuestion = nextQuestion.NextQuestion;
+            nextQuestion.Accessor.Name.ShouldEqual("LikesGreen");
+            nextQuestion.Answer = true;
+            nextQuestion = nextQuestion.NextQuestion;
+            nextQuestion.Accessor.Name.ShouldEqual("LikesRed");
+        }
 
-            var builder = new ModelBuilder<EndResultModel>(likesBlueQuestion);
-            var result = builder.BuildModel();
-
-            result.LikesBlue.ShouldBeFalse();
-            result.LikesGreen.Value.ShouldBeTrue();
-            result.BirthDay.ShouldEqual(now);
+        [Test]
+        public void question_grouping_eventually_runs_out_of_questions()
+        {
+            theQuestion.Accessor.Name.ShouldEqual("LikesBlue");
+            theQuestion.Answer = false;
+            var nextQuestion = theQuestion.NextQuestion;
+            nextQuestion.ShouldBeNull();
         }
 
         public class EndResultModel
         {
             public bool LikesBlue { get; set; }
             public bool? LikesGreen { get; set; }
-            public DateTime? BirthDay { get; set; }
+            public bool LikesRed { get; set; }
+            public DateTime Birthday { get; set; }
         }
     }
-
 }

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace EligibilityQuestions.Wpf
 {
@@ -7,6 +8,9 @@ namespace EligibilityQuestions.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly ModelBuilder<TestModel> _modelBuilder;
+        private readonly WindowContext _dataContext;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -21,10 +25,21 @@ namespace EligibilityQuestions.Wpf
             thirdQuestion.QuestionText = "Do you like red?";
 
             firstQuestion.OnNo(x => secondQuestion);
-
             secondQuestion.OnYes(x => thirdQuestion);
 
-            DataContext = firstQuestion;
+            _dataContext = new WindowContext
+            {
+                Question = firstQuestion
+            };
+            _modelBuilder = new ModelBuilder<TestModel>(firstQuestion);
+
+            DataContext = _dataContext;
+        }
+
+        private void BuildModel(object sender, RoutedEventArgs e)
+        {
+            var model = _modelBuilder.BuildModel();
+            _dataContext.AnswerSummary = model.ToString();
         }
     }
 }
