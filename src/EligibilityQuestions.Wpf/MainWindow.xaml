@@ -2,12 +2,17 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:eligibilityQuestions="clr-namespace:EligibilityQuestions;assembly=EligibilityQuestions"
-        Title="MainWindow" Height="350" Width="525">
+        xmlns:controls="clr-namespace:EligibilityQuestions.Wpf.Controls"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        Title="MainWindow" Height="800" Width="600">
   <Window.Resources>
+
+
     <DataTemplate DataType="{x:Type eligibilityQuestions:YesNoQuestion}">
-      <StackPanel Grid.Row="1"
-                  Margin="10">
+      <StackPanel Grid.Row="1">
+
         <TextBlock Text="{Binding QuestionText}"
+                   Margin="5,5,5,0"
                    Style="{StaticResource HeaderStyle}" />
         <Grid>
           <TabControl Margin="-1,0,-1,-1"
@@ -28,15 +33,86 @@
             <TabItem Template="{StaticResource TabItemTemplate}"
                      IsSelected="{Binding Path=Answer, Converter={StaticResource BoolNegationConverter}, Mode=TwoWay}"
                      Header="No">
-              <ContentControl Content="{Binding NextQuestion}" />
+              <TabItem.Style>
+                <Style TargetType="TabItem">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding NextQuestion, Converter={StaticResource IsNotNullConverter}}"
+                                 Value="True">
+                      <Setter Property="Content">
+                        <Setter.Value>
+                          <ContentControl Content="{Binding NextQuestion}" />
+                        </Setter.Value>
+                      </Setter>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TabItem.Style>
             </TabItem>
             <TabItem Header="Yes"
                      IsSelected="{Binding Path=Answer, Converter={StaticResource NullableBooleanConverter}, Mode=TwoWay}"
                      Template="{StaticResource TabItemTemplate}">
-              <ContentControl Content="{Binding NextQuestion}" />
+              <TabItem.Style>
+                <Style TargetType="TabItem">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding NextQuestion, Converter={StaticResource IsNotNullConverter}}"
+                                 Value="True">
+                      <Setter Property="Content">
+                        <Setter.Value>
+                          <ContentControl Content="{Binding NextQuestion}" />
+                        </Setter.Value>
+                      </Setter>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TabItem.Style>
             </TabItem>
           </TabControl>
         </Grid>
+
+      </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type eligibilityQuestions:DateTimeQuestion}">
+        <StackPanel>
+          <TextBlock Text="{Binding QuestionText}"
+                     Style="{StaticResource HeaderStyle}"
+                     Margin="5,5,5,0" />
+          <controls:MaskedTextBox x:Name="dtLeftFacility"
+                                  Style="{StaticResource Control_ErrorStyle}"
+                                  Mask="00/00/0000"
+                                  Margin="5"
+                                  DataType="{x:Type System:DateTime}"
+                                  DefaultValue="{x:Null}"
+                                  Width="75"
+                                  StringFormat="MM/dd/yyyy"
+                                  HorizontalAlignment="Left"
+                                  Value="{Binding Answer}">
+          </controls:MaskedTextBox>
+          <ContentControl Content="{Binding NextQuestion}" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type eligibilityQuestions:MultipleSelectQuestion}">
+        <StackPanel>
+          <TextBlock Text="{Binding QuestionText}"
+                     Style="{StaticResource HeaderStyle}"
+                     Margin="5,5,5,0" />
+
+          <controls:FlagsEnumCheckboxPanel FlagsEnumType="{Binding FlagsEnumType}"
+                                           RawValue="{Binding Answer}"
+                                           Margin="5">
+          </controls:FlagsEnumCheckboxPanel>
+
+          <ContentControl Content="{Binding NextQuestion}" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="QuestionTemplate">
+      <StackPanel>
+        <Separator BorderBrush="Black"
+                   Margin="0,10,0,0"
+                   VerticalAlignment="Top" />
+        <ContentPresenter Content="{Binding}" />
       </StackPanel>
     </DataTemplate>
   </Window.Resources>
@@ -45,11 +121,15 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="30"/>
-      <RowDefinition Height="100"/>
+      <RowDefinition Height="200"/>
     </Grid.RowDefinitions>
 
-    <ContentControl Content="{Binding Question}" />
-    
+    <ItemsControl Grid.Row="0"
+                  Margin="10,0,10,10"
+                  ItemTemplate="{StaticResource QuestionTemplate}"
+                  ItemsSource="{Binding Questions}">
+    </ItemsControl>
+
     <Button Grid.Row="1"
             Content="Build Model"
             Click="BuildModel"/>

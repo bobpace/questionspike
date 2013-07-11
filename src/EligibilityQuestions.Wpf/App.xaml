@@ -6,6 +6,8 @@
   <Application.Resources>
     <Converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     <Converters:NullableBooleanConverter x:Key="NullableBooleanConverter" />
+    <Converters:IsNotNullConverter x:Key="IsNotNullConverter" />
+    <Converters:FlagsEnumValueConverter x:Key="FlagsEnumValueConverter" />
 
     <Color x:Key="Color_White">#FFFFFF</Color>
     <Color x:Key="Color_Black">#000000</Color>

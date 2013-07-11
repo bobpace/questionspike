@@ -1,22 +1,40 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using FubuCore;
 using System.Collections.Generic;
 
 namespace EligibilityQuestions.Wpf
 {
+    [Flags]
+    public enum PrescriptionDrugCoverage
+    {
+        Medigap = 1,
+        MedigapSelect = 2,
+        MedicareAdvantageOrMapd = 4,
+        PDP = 8,
+        MedicareOnly = 16,
+        NotEnrolledInMedicare = 32,
+        EmployerCoverage = 64,
+        None = 128,
+    }
+
     public class TestModel
     {
-        public bool? LikesBlue { get; set; }
-        public bool? LikesGreen { get; set; }
+        public bool? WithinAnnualEnrollmentPeriod { get; set; }
+        public PrescriptionDrugCoverage? CurrentlyEnrolledDrugCoverage { get; set; }
         public bool? LikesRed { get; set; }
+        public bool? LikesGreen { get; set; }
+        public bool? LikesYellow { get; set; }
+        public bool? LikesPurple { get; set; }
+        public DateTime? Birthday { get; set; }
 
         public override string ToString()
         {
             return GetType()
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(x => "{0}={1}".ToFormat(x.Name, x.GetValue(this, null) ?? "null"))
-                .Join(",");
+                .Join(Environment.NewLine);
         }
     }
 }

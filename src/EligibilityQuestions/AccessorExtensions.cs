@@ -1,10 +1,28 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
+using FubuCore;
 using FubuCore.Reflection;
 
 namespace EligibilityQuestions
 {
     //TODO: move these to FubuCore, it currently has an overload that supports object but not an open generic for TProperty
+    public static class TypeExtensions
+    {
+        public static Type UnwrapNullable(this Type type)
+        {
+            return type.IsNullable() ? type.GetGenericArguments().First() : type;
+        }
+
+        public static void ValidateFlagsEnumType(this Type type)
+        {
+            if (!type.IsEnum || !type.HasAttribute<FlagsAttribute>())
+            {
+                throw new ArgumentException("Use a flags enum for TFlagsEnum");
+            }
+        }
+    }
+
     public static class AccessorExtensions
     {
         public static Accessor ToAccessor<T, TProperty>(this Expression<Func<T, TProperty>> expression)

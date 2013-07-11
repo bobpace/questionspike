@@ -54,6 +54,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\FlagsEnumCheckboxPanel.cs" />
+    <Compile Include="Controls\MaskedTextBox.cs" />
+    <Compile Include="Converters\FlagsEnumValueConverter.cs" />
+    <Compile Include="Converters\IsNotNullConverter.cs" />
     <Compile Include="TestModel.cs" />
     <Compile Include="WindowContext.cs" />
     <Page Include="MainWindow.xaml">

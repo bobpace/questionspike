@@ -15,23 +15,43 @@ namespace EligibilityQuestions.Wpf
         {
             InitializeComponent();
 
-            var firstQuestion = Question.ForAnswer<TestModel>(x => x.LikesBlue);
-            firstQuestion.QuestionText = "Do you like blue?";
+            var annualEnrollmentQuestion = Question.ForAnswer<TestModel>(x => x.WithinAnnualEnrollmentPeriod);
+            annualEnrollmentQuestion.QuestionText = "Are you within the annual enrollment period?";
 
-            var secondQuestion = Question.ForAnswer<TestModel>(x => x.LikesGreen);
-            secondQuestion.QuestionText = "Do you like green?";
+            var drugCoverageQuestion = Question.ForAnswer<TestModel,PrescriptionDrugCoverage?>(x => x.CurrentlyEnrolledDrugCoverage);
+            drugCoverageQuestion.QuestionText = "What type of medical or prescription drug coverage are you currently enrolled in?";
 
-            var thirdQuestion = Question.ForAnswer<TestModel>(x => x.LikesRed);
-            thirdQuestion.QuestionText = "Do you like red?";
+            var birthdayQuestion = Question.ForAnswer<TestModel>(x => x.Birthday);
+            birthdayQuestion.QuestionText = "When is your birthday?";
 
-            firstQuestion.OnNo(x => secondQuestion);
-            secondQuestion.OnYes(x => thirdQuestion);
+            var greenQuestion = Question.ForAnswer<TestModel>(x => x.LikesGreen);
+            greenQuestion.QuestionText = "Do you like green?";
+
+            var yellowQuestion = Question.ForAnswer<TestModel>(x => x.LikesYellow);
+            yellowQuestion.QuestionText = "Do you like yellow?";
+
+            var purpleQuestion = Question.ForAnswer<TestModel>(x => x.LikesPurple);
+            purpleQuestion.QuestionText = "Do you like purple?";
+
+            //TODO: expand multiple select question to have an IEnumerable<Question> for next question
+            drugCoverageQuestion.OnNext(x => birthdayQuestion);
+
+            //birthdayQuestion.OnNext(x => greenQuestion);
+
+            greenQuestion.OnYes(x => yellowQuestion);
+            greenQuestion.OnNo(x => purpleQuestion);
+
+            var questions = new Question[]
+            {
+                annualEnrollmentQuestion,
+                drugCoverageQuestion
+            };
 
             _dataContext = new WindowContext
             {
-                Question = firstQuestion
+                Questions = questions
             };
-            _modelBuilder = new ModelBuilder<TestModel>(firstQuestion);
+            _modelBuilder = new ModelBuilder<TestModel>(questions);
 
             DataContext = _dataContext;
         }

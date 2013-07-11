@@ -21,7 +21,7 @@ namespace EligibilityQuestions.Tests
             likesBlueQuestion.OnNo(x => likesGreenQuestion);
             likesGreenQuestion.OnYes(x => birthdayQuestion);
             now = DateTime.Now;
-            theModelBuilder = new ModelBuilder<EndResultModel>(likesBlueQuestion);
+            theModelBuilder = new ModelBuilder<EndResultModel>(new[] {likesBlueQuestion});
         }
 
         [Test]

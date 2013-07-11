@@ -5,18 +5,17 @@ namespace EligibilityQuestions
 {
     public class ModelBuilder<TResult> where TResult : class, new()
     {
-        private readonly Question _firstQuestion;
+        private readonly IEnumerable<Question> _questions;
 
-        public ModelBuilder(Question firstQuestion)
+        public ModelBuilder(IEnumerable<Question> questions)
         {
-            _firstQuestion = firstQuestion;
+            _questions = questions;
         }
 
         public TResult BuildModel()
         {
             var result = new TResult();
-
-            _firstQuestion.AnsweredQuestions()
+            _questions.SelectMany(x => x.AnsweredQuestions())
                 .Select(x => new {x.Accessor, x.Answer})
                 .Each(x => x.Accessor.SetValue(result, x.Answer));
             return result;

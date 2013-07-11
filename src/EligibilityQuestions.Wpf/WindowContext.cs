@@ -1,19 +1,20 @@
+using System.Collections.Generic;
 using ExtendHealth.Ssc.Framework;
 
 namespace EligibilityQuestions.Wpf
 {
     public class WindowContext : NotifyPropertyChangedBase
     {
-        private Question _question;
+        private IEnumerable<Question> _questions;
         private string _answerSummary;
 
-        public Question Question
+        public IEnumerable<Question> Questions
         {
-            get { return _question; }
+            get { return _questions; }
             set
             {
-                _question = value;
-                NotifyOfPropertyChange(() => Question);
+                _questions = value;
+                NotifyOfPropertyChange(() => Questions);
             }
         }
 
