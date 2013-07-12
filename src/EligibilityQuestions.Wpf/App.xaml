@@ -8,6 +8,7 @@
     <Converters:NullableBooleanConverter x:Key="NullableBooleanConverter" />
     <Converters:IsNotNullConverter x:Key="IsNotNullConverter" />
     <Converters:FlagsEnumValueConverter x:Key="FlagsEnumValueConverter" />
+    <Converters:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
 
     <Color x:Key="Color_White">#FFFFFF</Color>
     <Color x:Key="Color_Black">#000000</Color>

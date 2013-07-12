@@ -32,19 +32,27 @@ namespace EligibilityQuestions
             set
             {
                 _answer = value;
+                _answerUpdated = true;
+                NotifyOfPropertyChange(() => Answer);
                 NotifyOfPropertyChange(() => NextQuestion);
             }
         }
 
         public abstract NextQuestion GetNextQuestion();
 
+        private bool _answerUpdated;
+        private Question _nextQuestion;
         public Question NextQuestion
         {
             get
             {
                 if (Answer == null) return null;
-                var question = GetNextQuestion()(this);
-                return question;
+                if (_answerUpdated)
+                {
+                    _nextQuestion = GetNextQuestion()(this);
+                    _answerUpdated = false;
+                }
+                return _nextQuestion;
             }
         }
 

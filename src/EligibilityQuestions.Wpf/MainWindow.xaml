@@ -21,7 +21,7 @@
               <TabItem.Style>
                 <Style TargetType="TabItem">
                   <Style.Triggers>
-                    <DataTrigger Binding="{Binding Path=Answer, Mode=TwoWay}"
+                    <DataTrigger Binding="{Binding Path=Answer}"
                                  Value="{x:Null}">
                       <Setter Property="IsSelected"
                               Value="True" />
@@ -31,37 +31,47 @@
               </TabItem.Style>
             </TabItem>
             <TabItem Template="{StaticResource TabItemTemplate}"
-                     IsSelected="{Binding Path=Answer, Converter={StaticResource BoolNegationConverter}, Mode=TwoWay}"
+                     IsSelected="{Binding Path=Answer, Converter={StaticResource BoolNegationConverter}}"
                      Header="No">
               <TabItem.Style>
                 <Style TargetType="TabItem">
                   <Style.Triggers>
-                    <DataTrigger Binding="{Binding NextQuestion, Converter={StaticResource IsNotNullConverter}}"
-                                 Value="True">
+                    <MultiDataTrigger>
+                      <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding NextQuestion, Converter={StaticResource IsNotNullConverter}}"
+                                   Value="True" />
+                        <Condition Binding="{Binding Answer, Converter={StaticResource ObjectToBoolConverter}}"
+                                   Value="False" />
+                      </MultiDataTrigger.Conditions>
                       <Setter Property="Content">
                         <Setter.Value>
                           <ContentControl Content="{Binding NextQuestion}" />
                         </Setter.Value>
                       </Setter>
-                    </DataTrigger>
+                    </MultiDataTrigger>
                   </Style.Triggers>
                 </Style>
               </TabItem.Style>
             </TabItem>
             <TabItem Header="Yes"
-                     IsSelected="{Binding Path=Answer, Converter={StaticResource NullableBooleanConverter}, Mode=TwoWay}"
+                     IsSelected="{Binding Path=Answer, Converter={StaticResource NullableBooleanConverter}}"
                      Template="{StaticResource TabItemTemplate}">
               <TabItem.Style>
                 <Style TargetType="TabItem">
                   <Style.Triggers>
-                    <DataTrigger Binding="{Binding NextQuestion, Converter={StaticResource IsNotNullConverter}}"
-                                 Value="True">
+                    <MultiDataTrigger>
+                      <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding NextQuestion, Converter={StaticResource IsNotNullConverter}}"
+                                   Value="True" />
+                        <Condition Binding="{Binding Answer, Converter={StaticResource ObjectToBoolConverter}}"
+                                   Value="True" />
+                      </MultiDataTrigger.Conditions>
                       <Setter Property="Content">
                         <Setter.Value>
                           <ContentControl Content="{Binding NextQuestion}" />
                         </Setter.Value>
                       </Setter>
-                    </DataTrigger>
+                    </MultiDataTrigger>
                   </Style.Triggers>
                 </Style>
               </TabItem.Style>
