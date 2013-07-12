@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AccessorExtensions.cs" />
     <Compile Include="ModelBuilder.cs" />
+    <Compile Include="MultipleSelectQuestion.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="DateTimeQuestion.cs" />
     <Compile Include="IQuestion.cs" />

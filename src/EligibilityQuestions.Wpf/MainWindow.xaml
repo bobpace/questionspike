@@ -104,6 +104,7 @@
           </controls:FlagsEnumCheckboxPanel>
 
           <ItemsControl ItemsSource="{Binding NextQuestions}" />
+          <ContentControl Content="{Binding NextQuestion}" />
         </StackPanel>
     </DataTemplate>
 

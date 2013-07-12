@@ -52,6 +52,8 @@ namespace EligibilityQuestions.Wpf
                 {PrescriptionDrugCoverage.PDP, enrolledInPdpQuestion}
             };
 
+            annualEnrollmentQuestion.OnYes(x => drugCoverageQuestion);
+
             drugCoverageQuestion.SetExtraQuestions(questionMap);
 
             var birthdayQuestion = Question.ForAnswer<NewModel>(x => x.Birthday);
@@ -69,15 +71,14 @@ namespace EligibilityQuestions.Wpf
             //TODO: expand multiple select question to have an IEnumerable<Question> for next question
             drugCoverageQuestion.OnNext(x => birthdayQuestion);
 
-            //birthdayQuestion.OnNext(x => greenQuestion);
+            birthdayQuestion.OnNext(x => greenQuestion);
 
             greenQuestion.OnYes(x => yellowQuestion);
             greenQuestion.OnNo(x => purpleQuestion);
 
             var questions = new Question[]
             {
-                annualEnrollmentQuestion,
-                drugCoverageQuestion
+                annualEnrollmentQuestion
             };
 
             Questions = questions;

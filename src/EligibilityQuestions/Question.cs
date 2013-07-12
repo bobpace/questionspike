@@ -50,11 +50,13 @@ namespace EligibilityQuestions
 
         public virtual IEnumerable<Question> AnsweredQuestions()
         {
-            var question = this;
-            while (question != null)
+            yield return this;
+            if (NextQuestion != null)
             {
-                yield return question;
-                question = question.NextQuestion;
+                foreach (var question in NextQuestion.AnsweredQuestions())
+                {
+                    yield return question;
+                }
             }
         }
 
