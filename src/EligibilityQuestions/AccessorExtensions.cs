@@ -21,6 +21,11 @@ namespace EligibilityQuestions
                 throw new ArgumentException("Use a flags enum for TFlagsEnum");
             }
         }
+
+        public static bool HasFlag(this int value, int otherValue)
+        {
+            return (value & otherValue) != 0;
+        }
     }
 
     public static class AccessorExtensions

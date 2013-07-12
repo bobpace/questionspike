@@ -26,7 +26,7 @@ namespace EligibilityQuestions.Wpf.Converters
             _targetValue = value != null
                 ? (int?) ((int) value)
                 : null;
-            return _targetValue.HasValue && (mask & _targetValue) != 0;
+            return _targetValue.HasValue && mask.HasFlag(_targetValue.Value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

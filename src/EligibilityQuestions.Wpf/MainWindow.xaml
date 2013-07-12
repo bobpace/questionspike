@@ -103,7 +103,7 @@
                                            Margin="5">
           </controls:FlagsEnumCheckboxPanel>
 
-          <ContentControl Content="{Binding NextQuestion}" />
+          <ItemsControl ItemsSource="{Binding NextQuestions}" />
         </StackPanel>
     </DataTemplate>
 

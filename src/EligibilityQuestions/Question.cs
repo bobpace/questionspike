@@ -48,7 +48,7 @@ namespace EligibilityQuestions
             }
         }
 
-        public IEnumerable<Question> AnsweredQuestions()
+        public virtual IEnumerable<Question> AnsweredQuestions()
         {
             var question = this;
             while (question != null)
