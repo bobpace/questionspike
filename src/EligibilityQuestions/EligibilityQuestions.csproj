@@ -50,11 +50,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessorExtensions.cs" />
+    <Compile Include="DefaultDisplayFormatter.cs" />
+    <Compile Include="FlagsEnumDisplayFormatter.cs" />
+    <Compile Include="IFlagsEnumDisplayFormatter.cs" />
+    <Compile Include="IFlagsEnumFormatterProvider.cs" />
     <Compile Include="ModelBuilder.cs" />
     <Compile Include="MultipleSelectQuestion.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="DateTimeQuestion.cs" />
-    <Compile Include="IQuestion.cs" />
+    <Compile Include="PascalCasingSpacesDisplayFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Question.cs" />
     <Compile Include="YesNoQuestion.cs" />

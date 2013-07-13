@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using FubuCore;
 using FubuCore.Reflection;
 
@@ -30,6 +32,15 @@ namespace EligibilityQuestions
         public static bool HasFlag(this int value, int otherValue)
         {
             return (value & otherValue) != 0;
+        }
+
+        public static string ProperetyValuesToString(this object instance)
+        {
+
+            return instance.GetType()
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Select(x => "{0}={1}".ToFormat(x.Name, x.GetValue(instance, null) ?? "null"))
+                .Join(Environment.NewLine);
         }
     }
 

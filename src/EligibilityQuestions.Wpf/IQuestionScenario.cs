@@ -4,7 +4,7 @@ namespace EligibilityQuestions.Wpf
 {
     public interface IQuestionScenario
     {
+        IEnumerable<Question> Questions { get; set; }
         string GetAnswerSummary();
-        IEnumerable<Question> Questions { get; }
     }
 }

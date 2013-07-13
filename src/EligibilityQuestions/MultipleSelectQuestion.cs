@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace EligibilityQuestions
 {
-    public class MultipleSelectQuestion : Question
+    public class MultipleSelectQuestion : Question, IFlagsEnumFormatterProvider
     {
         private NextQuestion _onNext;
         private IDictionary<object, Question> _questionMap;
@@ -12,6 +12,7 @@ namespace EligibilityQuestions
         public MultipleSelectQuestion()
         {
             _onNext = Done;
+            DisplayFormatter = new PascalCasingSpacesDisplayFormatter();
         }
 
         public override NextQuestion GetNextQuestion()
@@ -37,6 +38,8 @@ namespace EligibilityQuestions
 
             return this;
         }
+
+        public IFlagsEnumDisplayFormatter DisplayFormatter { get; set; }
 
         public Type FlagsEnumType
         {

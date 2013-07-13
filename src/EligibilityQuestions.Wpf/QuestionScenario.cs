@@ -6,10 +6,12 @@ namespace EligibilityQuestions.Wpf
     /// Set Questions in your constructor
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public abstract class QuestionScenario<TModel> : IQuestionScenario where TModel : class, new()
+    public abstract class QuestionScenario<TModel> : NotifyPropertyChangedBase, IQuestionScenario where TModel : class, new()
     {
         private IEnumerable<Question> _questions;
-        public IEnumerable<Question> Questions
+        private string _answerSummary;
+
+        public virtual IEnumerable<Question> Questions
         {
             get { return _questions; }
             set
@@ -22,6 +24,7 @@ namespace EligibilityQuestions.Wpf
                         question.Rank = QuestionRank.Primary;
                     }
                 }
+                NotifyOfPropertyChange(() => Questions);
             }
         }
 
@@ -32,7 +35,18 @@ namespace EligibilityQuestions.Wpf
 
         public string GetAnswerSummary()
         {
-            return BuildModel().ToString();
+            AnswerSummary = BuildModel().ProperetyValuesToString();
+            return AnswerSummary;
+        }
+
+        public string AnswerSummary
+        {
+            get { return _answerSummary; }
+            set
+            {
+                _answerSummary = value;
+                NotifyOfPropertyChange(() => AnswerSummary);
+            }
         }
     }
 }

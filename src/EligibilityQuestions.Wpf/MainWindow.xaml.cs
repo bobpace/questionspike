@@ -9,29 +9,23 @@ namespace EligibilityQuestions.Wpf
     public partial class MainWindow : Window
     {
         private IQuestionScenario _scenario;
-        private WindowContext _dataContext;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            var scenario = new NewQuestionScenario();
-            UseScenario(scenario);
+            UseScenario(new NewQuestionScenario());
+            //UseScenario(new ExistingQuestionScenario());
         }
 
         private void UseScenario(IQuestionScenario scenario)
         {
             _scenario = scenario;
-            _dataContext = new WindowContext
-            {
-                Questions = scenario.Questions
-            };
-            DataContext = _dataContext;
+            DataContext = _scenario;
         }
 
         private void BuildModel(object sender, RoutedEventArgs e)
         {
-            _dataContext.AnswerSummary = _scenario.GetAnswerSummary();
+            _scenario.GetAnswerSummary();
         }
     }
 }

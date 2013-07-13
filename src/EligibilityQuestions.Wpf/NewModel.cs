@@ -29,13 +29,5 @@ namespace EligibilityQuestions.Wpf
         public bool? LikesYellow { get; set; }
         public bool? LikesPurple { get; set; }
         public DateTime? Birthday { get; set; }
-
-        public override string ToString()
-        {
-            return GetType()
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Select(x => "{0}={1}".ToFormat(x.Name, x.GetValue(this, null) ?? "null"))
-                .Join(Environment.NewLine);
-        }
     }
 }

@@ -32,6 +32,10 @@ namespace EligibilityQuestions.Wpf.Controls
         {
             if (FlagsEnumType != null)
             {
+                var provider = DataContext as IFlagsEnumFormatterProvider;
+                var formatter = provider != null
+                    ? provider.DisplayFormatter
+                    : new DefaultDisplayFormatter();
                 FlagsEnumType.ValidateFlagsEnumType();
                 var converter = new FlagsEnumValueConverter(FlagsEnumType);
                 foreach (var value in Enum.GetValues(FlagsEnumType))
@@ -49,7 +53,7 @@ namespace EligibilityQuestions.Wpf.Controls
 
                     var checkBox = new CheckBox
                     {
-                        Content = value.ToString(),
+                        Content = formatter.FormatValue(value),
                         Margin = new Thickness(0, 10, 10, 0)
                     };
                     checkBox.SetBinding(ToggleButton.IsCheckedProperty, binding);
