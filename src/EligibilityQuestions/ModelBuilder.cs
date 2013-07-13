@@ -3,19 +3,12 @@ using System.Linq;
 
 namespace EligibilityQuestions
 {
-    public class ModelBuilder<TResult> where TResult : class, new()
+    public static class ModelBuilder<TModel> where TModel : class, new()
     {
-        private readonly IEnumerable<Question> _questions;
-
-        public ModelBuilder(IEnumerable<Question> questions)
+        public static TModel BuildModelFrom(IEnumerable<Question> questions)
         {
-            _questions = questions;
-        }
-
-        public TResult BuildModel()
-        {
-            var result = new TResult();
-            _questions.SelectMany(x => x.AnsweredQuestions())
+            var result = new TModel();
+            questions.SelectMany(x => x.AnsweredQuestions())
                 .Select(x => new {x.Accessor, x.Answer})
                 .Each(x => x.Accessor.SetValue(result, x.Answer));
             return result;
