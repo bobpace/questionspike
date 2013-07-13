@@ -9,23 +9,11 @@ namespace EligibilityQuestions.Wpf
         {
             var annualEnrollmentQuestion = Question.ForAnswer<NewModel>(x => x.WithinAnnualEnrollmentPeriod);
             annualEnrollmentQuestion.QuestionText = "Are you within the annual enrollment period?";
-            //annualEnrollmentQuestion.Answer = false;
 
             var drugCoverageQuestion =
                 Question.ForAnswer<NewModel, PrescriptionDrugCoverage?>(x => x.CurrentlyEnrolledDrugCoverage);
             drugCoverageQuestion.QuestionText =
                 "What type of medical or prescription drug coverage are you currently enrolled in?";
-
-            //TODO: add unit test coverage demonstrating this usage as an option
-//            drugCoverageQuestion.DisplayFormatter = new FlagsEnumDisplayFormatter<PrescriptionDrugCoverage>(
-//                new Dictionary<PrescriptionDrugCoverage, string>
-//                {
-//                    {PrescriptionDrugCoverage.MedigapSelect, "Medigap Select"},
-//                    {PrescriptionDrugCoverage.MedicareAdvantageOrMapd, "Medicare Advantage Or Mapd"},
-//                    {PrescriptionDrugCoverage.MedicareOnly, "Medicare Only"},
-//                    {PrescriptionDrugCoverage.NotEnrolledInMedicare, "Not Enrolled In Medicare"},
-//                    {PrescriptionDrugCoverage.EmployerCoverage, "Employer Coverage"},
-//                });
 
             var enrolledInMedigapQuestion = Question.ForAnswer<NewModel>(x => x.EnrolledInMedigapDate);
             enrolledInMedigapQuestion.QuestionText = "When did you enroll in medigap?";

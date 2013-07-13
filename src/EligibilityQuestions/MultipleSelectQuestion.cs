@@ -74,9 +74,9 @@ namespace EligibilityQuestions
             }
         }
 
-        public override IEnumerable<Question> AnsweredQuestions()
+        public override IEnumerable<Question> ExtraAnsweredQuestions()
         {
-            return base.AnsweredQuestions().Concat(NextQuestions);
+            return NextQuestions;
         }
     }
 }

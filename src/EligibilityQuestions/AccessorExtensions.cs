@@ -31,6 +31,7 @@ namespace EligibilityQuestions
 
         public static bool HasFlag(this int value, int otherValue)
         {
+            if (value == 0 && otherValue == 0) return true;
             return (value & otherValue) != 0;
         }
 

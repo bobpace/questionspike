@@ -8,7 +8,7 @@ namespace EligibilityQuestions
 
         public PascalCasingSpacesDisplayFormatter()
         {
-            _replaceRegex = new Regex(@"(\B[A-Z]+?(?=[A-Z][^A-Z])|\B[A-Z]+?(?=[^A-Z]))", RegexOptions.Compiled);
+            _replaceRegex = new Regex(@"(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", RegexOptions.Compiled);
         }
 
         public string FormatValue(object value)

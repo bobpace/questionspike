@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FubuCore;
 using FubuCore.Reflection;
 
 namespace EligibilityQuestions
@@ -55,16 +54,20 @@ namespace EligibilityQuestions
             }
         }
 
+        public virtual IEnumerable<Question> ExtraAnsweredQuestions()
+        {
+            yield break;
+        }
+
         public virtual IEnumerable<Question> AnsweredQuestions()
         {
-            yield return this;
+            //this question, followed by any extra answered questions, followed by the next question in the chains answered questions
+            var result = new[] {this}.Concat(ExtraAnsweredQuestions());
             if (NextQuestion != null)
             {
-                foreach (var question in NextQuestion.AnsweredQuestions())
-                {
-                    yield return question;
-                }
+                result = result.Concat(NextQuestion.AnsweredQuestions());
             }
+            return result;
         }
 
         //////////////////
