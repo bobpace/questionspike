@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using ExtendHealth.Ssc.Framework;
 using FubuCore;
 using FubuCore.Reflection;
 
@@ -12,8 +11,8 @@ namespace EligibilityQuestions
 
     public enum QuestionRank
     {
-        Primary,
-        Secondary
+        Secondary,
+        Primary
     }
 
     public abstract class Question : NotifyPropertyChangedBase

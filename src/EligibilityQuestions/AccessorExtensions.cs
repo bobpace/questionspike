@@ -6,8 +6,7 @@ using FubuCore.Reflection;
 
 namespace EligibilityQuestions
 {
-    //TODO: move these to FubuCore, it currently has an overload that supports object but not an open generic for TProperty
-    public static class TypeExtensions
+    public static class ExtensionMethods
     {
         public static Type UnwrapNullable(this Type type)
         {
@@ -22,12 +21,19 @@ namespace EligibilityQuestions
             }
         }
 
+        public static string GetPropertyName(this LambdaExpression property)
+        {
+            var memberExpression = (MemberExpression) property.Body;
+            return memberExpression.Member.Name;
+        }
+
         public static bool HasFlag(this int value, int otherValue)
         {
             return (value & otherValue) != 0;
         }
     }
 
+    //TODO: move these to FubuCore, it currently has an overload that supports object but not an open generic for TProperty
     public static class AccessorExtensions
     {
         public static Accessor ToAccessor<T, TProperty>(this Expression<Func<T, TProperty>> expression)

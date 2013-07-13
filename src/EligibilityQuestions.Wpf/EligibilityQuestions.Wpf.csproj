@@ -58,6 +58,7 @@
     <Compile Include="Controls\MaskedTextBox.cs" />
     <Compile Include="Converters\FlagsEnumValueConverter.cs" />
     <Compile Include="Converters\IsNotNullConverter.cs" />
+    <Compile Include="ExistingModel.cs" />
     <Compile Include="ExistingQuestionScenario.cs" />
     <Compile Include="IQuestionScenario.cs" />
     <Compile Include="NewModel.cs" />

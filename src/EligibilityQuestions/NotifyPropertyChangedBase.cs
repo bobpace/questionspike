@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 
-namespace ExtendHealth.Ssc.Framework
+namespace EligibilityQuestions
 {
     public class NotifyPropertyChangedBase : INotifyPropertyChanged
     {
@@ -14,15 +14,6 @@ namespace ExtendHealth.Ssc.Framework
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyExpression.GetPropertyName()));
             }
-        }
-    }
-
-    public static class ExtensionMethods
-    {
-        public static string GetPropertyName(this LambdaExpression property)
-        {
-            var memberExpression = (MemberExpression) property.Body;
-            return memberExpression.Member.Name;
         }
     }
 }

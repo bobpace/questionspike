@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using ExtendHealth.Ssc.Framework;
 
 namespace EligibilityQuestions.Wpf
 {
