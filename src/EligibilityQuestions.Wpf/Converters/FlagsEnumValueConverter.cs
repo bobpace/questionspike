@@ -27,9 +27,9 @@ namespace EligibilityQuestions.Wpf.Converters
         private int? _targetValue;
 
         /// <summary>
-        /// To be used with the FlagsEnumCheckboxPanel, otherwise use at own risk
+        /// To be used with the FlagsEnumCheckBoxPanel, otherwise use at own risk
         /// Because this converter holds state, and normally converters are singletons
-        /// this will be problematic to your usage of it outside of how FlagsEnumCheckboxPanel uses it
+        /// this will be problematic to your usage of it outside of how FlagsEnumCheckBoxPanel uses it
         /// </summary>
         /// <param name="flagsEnumType"></param>
         public FlagsEnumValueConverter(Type flagsEnumType)

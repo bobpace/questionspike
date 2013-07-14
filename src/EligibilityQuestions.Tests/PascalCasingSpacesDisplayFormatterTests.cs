@@ -21,7 +21,7 @@ namespace EligibilityQuestions.Tests
         }
 
         [Test]
-        public void leaves_acronym_alone()
+        public void handles_acryonym()
         {
             var result = _theFormatter.FormatValue("PDP");
             result.ShouldEqual("PDP");

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -7,14 +9,29 @@ using EligibilityQuestions.Wpf.Converters;
 
 namespace EligibilityQuestions.Wpf.Controls
 {
-    public class FlagsEnumCheckboxPanel : StackPanel
+    public class FlagsEnumCheckBoxPanel : StackPanel
     {
         public static readonly DependencyProperty FlagsEnumTypeProperty =
-            DependencyProperty.Register("FlagsEnumType", typeof(Type), typeof(FlagsEnumCheckboxPanel));
+            DependencyProperty.Register("FlagsEnumType", typeof(Type), typeof(FlagsEnumCheckBoxPanel));
 
         public static readonly DependencyProperty RawValueProperty =
-            DependencyProperty.Register("RawValue", typeof(object), typeof(FlagsEnumCheckboxPanel),
+            DependencyProperty.Register("RawValue", typeof(object), typeof(FlagsEnumCheckBoxPanel),
                                         new FrameworkPropertyMetadata { BindsTwoWayByDefault = true});
+
+        public static readonly DependencyProperty CheckBoxMarginProperty =
+            DependencyProperty.Register("CheckBoxMargin", typeof (Thickness), typeof (FlagsEnumCheckBoxPanel),
+                                        new UIPropertyMetadata(new Thickness(0, 10, 10, 0)));
+
+        public FlagsEnumCheckBoxPanel()
+        {
+            DisplayFormatter = new DefaultDisplayFormatter();
+        }
+
+        public Thickness CheckBoxMargin
+        {
+            get { return (Thickness)GetValue(CheckBoxMarginProperty); }
+            set { SetValue(CheckBoxMarginProperty, value); }
+        }
 
         public Type FlagsEnumType
         {
@@ -28,39 +45,53 @@ namespace EligibilityQuestions.Wpf.Controls
             set { SetValue(RawValueProperty, value); }
         }
 
+        public IFlagsEnumDisplayFormatter DisplayFormatter { get; set; }
+
         protected override void OnInitialized(EventArgs e)
         {
             if (FlagsEnumType != null)
             {
-                var provider = DataContext as IFlagsEnumFormatterProvider;
-                var formatter = provider != null
-                    ? provider.DisplayFormatter
-                    : new DefaultDisplayFormatter();
                 FlagsEnumType.ValidateFlagsEnumType();
-                var converter = new FlagsEnumValueConverter(FlagsEnumType);
-                foreach (var value in Enum.GetValues(FlagsEnumType))
+                var provider = DataContext as IFlagsEnumFormatterProvider;
+                if (provider != null)
                 {
-                    var binding = new Binding
-                    {
-                        Path = new PropertyPath("RawValue"),
-                        RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor)
-                        {
-                            AncestorType = GetType()
-                        },
-                        Converter = converter,
-                        ConverterParameter = value,
-                    };
-
-                    var checkBox = new CheckBox
-                    {
-                        Content = formatter.FormatValue(value),
-                        Margin = new Thickness(0, 10, 10, 0)
-                    };
-                    checkBox.SetBinding(ToggleButton.IsCheckedProperty, binding);
-                    Children.Add(checkBox);
+                    DisplayFormatter = provider.DisplayFormatter;
                 }
+
+                MakeCheckBoxes().Each(x => Children.Add(x));
             }
             base.OnInitialized(e);
+        }
+
+        private IEnumerable<CheckBox> MakeCheckBoxes()
+        {
+            var converter = new FlagsEnumValueConverter(FlagsEnumType);
+            return Enum.GetValues(FlagsEnumType)
+                .Cast<object>()
+                .Select(x => MakeCheckBox(x, converter));
+        }
+
+        private CheckBox MakeCheckBox(object value, IValueConverter converter)
+        {
+            var checkBox = new CheckBox
+            {
+                Content = DisplayFormatter.FormatValue(value),
+                Margin = CheckBoxMargin
+            };
+
+            var binding = new Binding
+            {
+                Path = new PropertyPath("RawValue"),
+                RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor)
+                {
+                    AncestorType = GetType()
+                },
+                Converter = converter,
+                ConverterParameter = value,
+            };
+
+            checkBox.SetBinding(ToggleButton.IsCheckedProperty, binding);
+            return checkBox;
         }
     }
 }

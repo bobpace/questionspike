@@ -37,7 +37,6 @@ namespace EligibilityQuestions
 
         public static string ProperetyValuesToString(this object instance)
         {
-
             return instance.GetType()
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(x => "{0}={1}".ToFormat(x.Name, x.GetValue(instance, null) ?? "null"))
