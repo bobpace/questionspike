@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
-using FubuCore;
-using System.Collections.Generic;
 
 namespace EligibilityQuestions.Wpf
 {

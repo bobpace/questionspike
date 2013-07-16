@@ -18,8 +18,11 @@ namespace EligibilityQuestions.Wpf
             InitializeComponent();
             _scenarioSwitcher = new ScenarioSwitcher(new IQuestionScenario[]
             {
+                new YesNoDemoScenario(),
+                new DateTimeDemoScenario(),
+                new MultipleSelectDemoScenario(),
+                new ExistingQuestionScenario(),
                 new NewQuestionScenario(),
-                new ExistingQuestionScenario()
             });
             DataContext = _scenarioSwitcher;
         }

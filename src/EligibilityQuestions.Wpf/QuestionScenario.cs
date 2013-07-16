@@ -30,6 +30,8 @@ namespace EligibilityQuestions.Wpf
             }
         }
 
+        public virtual IEnumerable<Question> AllQuestions { get; set; }
+
         public virtual IEnumerable<object> ScenarioModels
         {
             get { yield break; }
@@ -51,6 +53,10 @@ namespace EligibilityQuestions.Wpf
 
         public void Reset()
         {
+            if (AllQuestions != null)
+            {
+                AllQuestions.Each(x => x.Answer = null);
+            }
             SetAnswersFromModel(EmptyModel());
         }
 

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 
 namespace EligibilityQuestions.Wpf
 {
@@ -21,8 +21,6 @@ namespace EligibilityQuestions.Wpf
                 Question.ForAnswer<ExistingModel>(x => x.HasIndividualMedicarePlansOutsideOfGroupPlan);
             hasPlansOutsideGroupPlanQuestion.QuestionText =
                 "Are you currently enrolled in individual Medicare plans outside of a group plan?";
-
-
 
             var medigapDateQuestion = Question.ForAnswer<ExistingModel>(x => x.EnrolledInMedicareSupplementDate);
             medigapDateQuestion.QuestionText = "When did you enroll with Medigap?";
@@ -83,6 +81,26 @@ namespace EligibilityQuestions.Wpf
                 endStageRenalDiseaseQuestion,
                 receivingMedicaidBenefitsQuestion
             };
+        }
+
+        public override IEnumerable<object> ScenarioModels
+        {
+            get
+            {
+                yield return new ExistingModel
+                {
+                    HasLostOrIsLosingEmployerGroupCoverage = true,
+                    EmployerCoverageEndDate = new DateTime(2011, 12, 31),
+                    HasIndividualMedicarePlansOutsideOfGroupPlan = true,
+                    CurrentCoverage = CurrentCoverage.MedicareSupplementOrMedigap,
+                    EnrolledInMedicareSupplementDate = new DateTime(2011, 12, 31),
+                    HasMilitaryBenefits = true,
+                    MilitaryBenefits = MilitaryBenefits.HasTricareForLife,
+                    UsesTobacco = true,
+                    HasEndStageRenalDisease = false,
+                    IsReceivingOrHasRecentlyStoppedReceivingMedicaidBenefits = false
+                };
+            }
         }
     }
 }

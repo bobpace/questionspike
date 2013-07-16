@@ -59,12 +59,15 @@
     <Compile Include="Converters\FlagsEnumValueConverter.cs" />
     <Compile Include="Converters\IsNotNullConverter.cs" />
     <Compile Include="Converters\ObjectToBoolConverter.cs" />
+    <Compile Include="DateTimeDemoScenario.cs" />
     <Compile Include="ExistingModel.cs" />
     <Compile Include="ExistingQuestionScenario.cs" />
     <Compile Include="IQuestionScenario.cs" />
+    <Compile Include="MultipleSelectDemoScenario.cs" />
     <Compile Include="NewModel.cs" />
     <Compile Include="NewQuestionScenario.cs" />
     <Compile Include="QuestionScenario.cs" />
+    <Compile Include="YesNoDemoScenario.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
