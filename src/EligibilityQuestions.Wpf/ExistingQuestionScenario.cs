@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EligibilityQuestions.Wpf
 {
@@ -71,7 +72,7 @@ namespace EligibilityQuestions.Wpf
 
             //TODO: get the medical release statement back in here
 
-            Questions = new Question[]
+            var questions = new Question[]
             {
                 losingGroupCoverageQuestion,
                 hasPlansOutsideGroupPlanQuestion,
@@ -81,6 +82,11 @@ namespace EligibilityQuestions.Wpf
                 endStageRenalDiseaseQuestion,
                 receivingMedicaidBenefitsQuestion
             };
+
+            Questions = questions;
+            AllQuestions =
+                questions.Concat(new Question[]
+                {employerCoverageEndDateQuestion, currentCoverageQuestion, militaryBenefitsQuestion});
         }
 
         public override IEnumerable<object> ScenarioModels
