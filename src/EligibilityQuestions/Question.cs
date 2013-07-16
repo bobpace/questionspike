@@ -16,7 +16,9 @@ namespace EligibilityQuestions
 
     public abstract class Question : NotifyPropertyChangedBase
     {
-        protected NextQuestion Done = (x => null);
+        //convenience for default end of question chain
+        protected static NextQuestion Done = (x => null);
+
         private object _answer;
 
         public Accessor Accessor { get; set; }

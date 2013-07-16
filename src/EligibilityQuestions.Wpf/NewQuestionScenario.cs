@@ -15,47 +15,25 @@ namespace EligibilityQuestions.Wpf
             drugCoverageQuestion.QuestionText =
                 "What type of medical or prescription drug coverage are you currently enrolled in?";
 
-            var enrolledInMedigapQuestion = Question.ForAnswer<NewModel>(x => x.EnrolledInMedigapDate);
-            enrolledInMedigapQuestion.QuestionText = "When did you enroll in medigap?";
-            var enrolledInPdpQuestion = Question.ForAnswer<NewModel>(x => x.EnrolledInPdpDate);
-            enrolledInPdpQuestion.QuestionText = "When did you enroll in pdp?";
+            var discussCoverageQuestion =
+                Question.ForAnswer<NewModel, DiscussCoverage?>(x => x.DiscussCoverage);
+            discussCoverageQuestion.QuestionText =
+                "What type of coverage would you like to discuss today?";
 
-            var questionMap = new Dictionary<PrescriptionDrugCoverage, Question>
-            {
-                {PrescriptionDrugCoverage.Medigap, enrolledInMedigapQuestion},
-                {PrescriptionDrugCoverage.PDP, enrolledInPdpQuestion}
-            };
-
-            //annualEnrollmentQuestion.OnYes(x => drugCoverageQuestion);
-
-            drugCoverageQuestion.SetExtraQuestions(questionMap);
-
-            var birthdayQuestion = Question.ForAnswer<NewModel>(x => x.Birthday);
-            birthdayQuestion.QuestionText = "When is your birthday?";
-
-            var greenQuestion = Question.ForAnswer<NewModel>(x => x.LikesGreen);
-            greenQuestion.QuestionText = "Do you like green?";
-
-            var yellowQuestion = Question.ForAnswer<NewModel>(x => x.LikesYellow);
-            yellowQuestion.QuestionText = "Do you like yellow?";
-
-            var purpleQuestion = Question.ForAnswer<NewModel>(x => x.LikesPurple);
-            purpleQuestion.QuestionText = "Do you like purple?";
-
-            //drugCoverageQuestion.OnNext(x => birthdayQuestion);
-
-            birthdayQuestion.OnNext(x => greenQuestion);
-
-            greenQuestion.OnYes(x => yellowQuestion);
-            greenQuestion.OnNo(x => purpleQuestion);
+            var promptedCallQuestion =
+                Question.ForAnswer<NewModel, PromptedCallReason?>(x => x.PromptedCallReason);
+            promptedCallQuestion.QuestionText = "What prompted your call today?";
 
             var questions = new Question[]
             {
                 annualEnrollmentQuestion,
                 drugCoverageQuestion,
-                birthdayQuestion
+                discussCoverageQuestion,
+                promptedCallQuestion
             };
 
+            //TODO: finish settuping up new question scenario
+            //get certain question groups to hide/show based on answers to other question groups
             Questions = questions;
         }
 
@@ -65,11 +43,8 @@ namespace EligibilityQuestions.Wpf
             {
                 yield return new NewModel
                 {
-                    Birthday = DateTime.Now,
                     WithinAnnualEnrollmentPeriod = true,
-                    CurrentlyEnrolledDrugCoverage = PrescriptionDrugCoverage.MedicareAdvantageOrMapd | PrescriptionDrugCoverage.PDP,
-                    LikesGreen = true,
-                    EnrolledInPdpDate = DateTime.Now
+                    CurrentlyEnrolledDrugCoverage = PrescriptionDrugCoverage.MedicareAdvantageOrMAPD | PrescriptionDrugCoverage.PDP,
                 };
             }
         }

@@ -11,6 +11,13 @@ namespace EligibilityQuestions.Wpf
         PrescriptionDrugPlan = 8
     }
 
+    [Flags]
+    public enum MilitaryBenefits
+    {
+        HasTricareForLife = 1,
+        HasVaBenefits = 2
+    }
+
     public class ExistingModel
     {
         public CurrentCoverage CurrentCoverage { get; set; }
@@ -27,8 +34,7 @@ namespace EligibilityQuestions.Wpf
         public DateTime? EmployerCoverageEndDate { get; set; }
         public bool? IsEligibleForAnyOtherGroupCoverage { get; set; }
         public bool? IsMoveWithinSameCounty { get; set; }
-        public bool? HasTricareForLife { get; set; }
-        public bool? HasVaBenefits { get; set; }
+        public MilitaryBenefits? MilitaryBenefits { get; set; }
         public bool? HasLostOrIsLosingEmployerGroupCoverage { get; set; }
         public bool? WouldLikeToEnrollOrKeepOtherGroupCoverage { get; set; }
         public bool? HasMilitaryBenefits { get; set; }

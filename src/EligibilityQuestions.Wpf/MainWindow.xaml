@@ -117,8 +117,20 @@
     <DataTemplate DataType="{x:Type eligibilityQuestions:MultipleSelectQuestion}">
         <StackPanel>
           <TextBlock Text="{Binding QuestionText}"
-                     Style="{StaticResource HeaderStyle}"
-                     Margin="5,5,5,0" />
+                     Margin="5,5,5,0">
+            <TextBlock.Style>
+              <Style TargetType="TextBlock" BasedOn="{StaticResource HeaderStyle}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Path=QuestionText}"
+                               Value="{x:Null}">
+                    <Setter Property="Visibility"
+                            Value="Collapsed" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </TextBlock.Style>
+          </TextBlock>
+                     
 
           <controls:FlagsEnumCheckBoxPanel FlagsEnumType="{Binding FlagsEnumType}"
                                            RawValue="{Binding Answer}"

@@ -11,7 +11,7 @@ namespace EligibilityQuestions.Wpf
     {
         Medigap = 1,
         MedigapSelect = 2,
-        MedicareAdvantageOrMapd = 4,
+        MedicareAdvantageOrMAPD = 4,
         PDP = 8,
         MedicareOnly = 16,
         NotEnrolledInMedicare = 32,
@@ -19,15 +19,29 @@ namespace EligibilityQuestions.Wpf
         None = 128,
     }
 
+    [Flags]
+    public enum DiscussCoverage
+    {
+        Medical = 1,
+        PDP = 2,
+        DentalOrVision = 4
+    }
+
+    [Flags]
+    public enum PromptedCallReason
+    {
+        RateIncrease = 1,
+        ChangeInHeathStatus=2,
+        MyPlanIsBeingDiscontinued=4,
+        WouldLikeToComparePlanOptions=8,
+        CustomerServiceQuestion=16
+    }
+
     public class NewModel
     {
         public bool? WithinAnnualEnrollmentPeriod { get; set; }
         public PrescriptionDrugCoverage? CurrentlyEnrolledDrugCoverage { get; set; }
-        public DateTime? EnrolledInMedigapDate { get; set; }
-        public DateTime? EnrolledInPdpDate { get; set; }
-        public bool? LikesGreen { get; set; }
-        public bool? LikesYellow { get; set; }
-        public bool? LikesPurple { get; set; }
-        public DateTime? Birthday { get; set; }
+        public DiscussCoverage? DiscussCoverage { get; set; }
+        public PromptedCallReason? PromptedCallReason { get; set; }
     }
 }
