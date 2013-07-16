@@ -39,6 +39,11 @@ namespace EligibilityQuestions.Wpf
             return result;
         }
 
+        public void Reset()
+        {
+            SetAnswersFromModel(new TModel());
+        }
+
         public void SetAnswersFromModel(TModel model)
         {
             SetAnswersFromModel(_questions, model);

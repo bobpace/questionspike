@@ -6,5 +6,6 @@ namespace EligibilityQuestions.Wpf
     {
         IEnumerable<Question> Questions { get; set; }
         string GetAnswerSummary();
+        void Reset();
     }
 }

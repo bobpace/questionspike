@@ -31,7 +31,7 @@ namespace EligibilityQuestions.Wpf
 
         private void Reset(object sender, RoutedEventArgs e)
         {
-            _scenarioSwitcher.CurrentScenario.GetAnswerSummary();
+            _scenarioSwitcher.ResetCurrentScenario();
         }
 
         private void OnScenarioChanged(object sender, SelectionChangedEventArgs e)
@@ -67,6 +67,16 @@ namespace EligibilityQuestions.Wpf
             }
         }
 
+        public void ResetCurrentScenario()
+        {
+            if (CurrentScenario == null) return;
+
+            var backup = CurrentScenario;
+            CurrentScenario = null; //disable wpf bindings momentarily
+            backup.Reset();
+            CurrentScenario = backup;
+        }
+
         public IEnumerable<IQuestionScenario> Scenarios
         {
             get { return _scenarios; }
@@ -77,5 +87,6 @@ namespace EligibilityQuestions.Wpf
     {
         IQuestionScenario CurrentScenario { get; set; }
         IEnumerable<IQuestionScenario> Scenarios { get; }
+        void ResetCurrentScenario();
     }
 }
