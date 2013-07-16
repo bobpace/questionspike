@@ -150,6 +150,9 @@
       <ListBox ItemsSource="{Binding Scenarios}"
                SelectionChanged="OnScenarioChanged"/>
       
+      <ListBox ItemsSource="{Binding CurrentScenario.ScenarioModels}"
+               SelectionChanged="OnScenarioModelsChanged"/>
+      
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition />

@@ -58,5 +58,20 @@ namespace EligibilityQuestions.Wpf
 
             Questions = questions;
         }
+
+        public override IEnumerable<object> ScenarioModels
+        {
+            get
+            {
+                yield return new NewModel
+                {
+                    Birthday = DateTime.Now,
+                    WithinAnnualEnrollmentPeriod = true,
+                    CurrentlyEnrolledDrugCoverage = PrescriptionDrugCoverage.MedicareAdvantageOrMapd | PrescriptionDrugCoverage.PDP,
+                    LikesGreen = true,
+                    EnrolledInPdpDate = DateTime.Now
+                };
+            }
+        }
     }
 }

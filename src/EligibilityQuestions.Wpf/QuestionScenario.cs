@@ -30,6 +30,11 @@ namespace EligibilityQuestions.Wpf
             }
         }
 
+        public virtual IEnumerable<object> ScenarioModels
+        {
+            get { yield break; }
+        }
+
         public TModel BuildModel()
         {
             var result = new TModel();
@@ -39,17 +44,22 @@ namespace EligibilityQuestions.Wpf
             return result;
         }
 
-        public void Reset()
+        public TModel EmptyModel()
         {
-            SetAnswersFromModel(new TModel());
+            return new TModel();
         }
 
-        public void SetAnswersFromModel(TModel model)
+        public void Reset()
+        {
+            SetAnswersFromModel(EmptyModel());
+        }
+
+        public void SetAnswersFromModel(object model)
         {
             SetAnswersFromModel(_questions, model);
         }
 
-        private void SetAnswersFromModel(IEnumerable<Question> questions, TModel model)
+        private void SetAnswersFromModel(IEnumerable<Question> questions, object model)
         {
             questions = questions.ToList();
             if (!questions.Any())

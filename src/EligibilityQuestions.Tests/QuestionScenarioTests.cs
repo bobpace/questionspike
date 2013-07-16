@@ -124,6 +124,26 @@ namespace EligibilityQuestions.Tests
             model.MultipleSelectChoices.ShouldEqual(choice);
         }
 
+        [Test]
+        public void reset_reverts_all_fields_to_default_values()
+        {
+            var scenario = new ExampleScenario(_theQuestions);
+
+            scenario.SetAnswersFromModel(new ExampleModel
+            {
+                LikesBlue = true,
+                LikesGreen = true,
+                LikesRed = true,
+            });
+
+            scenario.Reset();
+
+            var model = scenario.BuildModel();
+            model.LikesBlue.ShouldBeNull();
+            model.LikesGreen.ShouldBeNull();
+            model.LikesRed.ShouldBeNull();
+        }
+
 
         public class ExampleModel
         {

@@ -31,7 +31,7 @@ namespace EligibilityQuestions.Wpf
 
         private void Reset(object sender, RoutedEventArgs e)
         {
-            _scenarioSwitcher.ResetCurrentScenario();
+            _scenarioSwitcher.WithoutBindings(x => x.Reset());
         }
 
         private void OnScenarioChanged(object sender, SelectionChangedEventArgs e)
@@ -42,6 +42,17 @@ namespace EligibilityQuestions.Wpf
             if (scenario != null)
             {
                 _scenarioSwitcher.CurrentScenario = scenario;
+            }
+        }
+
+        private void OnScenarioModelsChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var model = e.AddedItems
+                .Cast<object>()
+                .FirstOrDefault();
+            if (model != null)
+            {
+                _scenarioSwitcher.WithoutBindings(x => x.SetAnswersFromModel(model));
             }
         }
     }
@@ -67,13 +78,13 @@ namespace EligibilityQuestions.Wpf
             }
         }
 
-        public void ResetCurrentScenario()
+        public void WithoutBindings(Action<IQuestionScenario> action)
         {
             if (CurrentScenario == null) return;
 
             var backup = CurrentScenario;
             CurrentScenario = null; //disable wpf bindings momentarily
-            backup.Reset();
+            action(backup);
             CurrentScenario = backup;
         }
 
@@ -87,6 +98,6 @@ namespace EligibilityQuestions.Wpf
     {
         IQuestionScenario CurrentScenario { get; set; }
         IEnumerable<IQuestionScenario> Scenarios { get; }
-        void ResetCurrentScenario();
+        void WithoutBindings(Action<IQuestionScenario> action);
     }
 }
