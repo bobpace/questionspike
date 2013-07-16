@@ -32,7 +32,6 @@ namespace EligibilityQuestions.Wpf
 
             var birthdayQuestion = Question.ForAnswer<NewModel>(x => x.Birthday);
             birthdayQuestion.QuestionText = "When is your birthday?";
-            birthdayQuestion.Answer = DateTime.Now;
 
             var greenQuestion = Question.ForAnswer<NewModel>(x => x.LikesGreen);
             greenQuestion.QuestionText = "Do you like green?";

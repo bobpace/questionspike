@@ -91,6 +91,7 @@ namespace EligibilityQuestions.Wpf.Controls
             };
 
             checkBox.SetBinding(ToggleButton.IsCheckedProperty, binding);
+            checkBox.HorizontalAlignment = HorizontalAlignment.Left;
             return checkBox;
         }
     }

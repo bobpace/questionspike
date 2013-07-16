@@ -54,7 +54,6 @@
     <Compile Include="FlagsEnumDisplayFormatter.cs" />
     <Compile Include="IFlagsEnumDisplayFormatter.cs" />
     <Compile Include="IFlagsEnumFormatterProvider.cs" />
-    <Compile Include="ModelBuilder.cs" />
     <Compile Include="MultipleSelectQuestion.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="DateTimeQuestion.cs" />

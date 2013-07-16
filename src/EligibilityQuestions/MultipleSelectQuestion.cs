@@ -74,7 +74,7 @@ namespace EligibilityQuestions
             }
         }
 
-        public override IEnumerable<Question> ExtraAnsweredQuestions()
+        public override IEnumerable<Question> ExtraQuestions()
         {
             return NextQuestions;
         }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EligibilityQuestions.Wpf
 {
@@ -30,7 +32,36 @@ namespace EligibilityQuestions.Wpf
 
         public TModel BuildModel()
         {
-            return ModelBuilder<TModel>.BuildModelFrom(Questions);
+            var result = new TModel();
+            _questions.SelectMany(x => x.AnsweredQuestions())
+                .Select(x => new {x.Accessor, x.Answer})
+                .Each(x => x.Accessor.SetValue(result, x.Answer));
+            return result;
+        }
+
+        public void SetAnswersFromModel(TModel model)
+        {
+            SetAnswersFromModel(_questions, model);
+        }
+
+        private void SetAnswersFromModel(IEnumerable<Question> questions, TModel model)
+        {
+            questions = questions.ToList();
+            if (!questions.Any())
+                return;
+
+            questions.Each(x => x.SetAnswerFromModel(model));
+            var newlyRevealedQuestions = questions.SelectMany(x =>
+            {
+                var result = x.ExtraQuestions();
+                var nextQuestion = x.NextQuestion;
+                if (nextQuestion != null)
+                {
+                    result = result.Concat(new[] {nextQuestion});
+                }
+                return result;
+            });
+            SetAnswersFromModel(newlyRevealedQuestions, model);
         }
 
         public string GetAnswerSummary()
@@ -47,6 +78,11 @@ namespace EligibilityQuestions.Wpf
                 _answerSummary = value;
                 NotifyOfPropertyChange(() => AnswerSummary);
             }
+        }
+
+        public override string ToString()
+        {
+            return GetType().Name;
         }
     }
 }

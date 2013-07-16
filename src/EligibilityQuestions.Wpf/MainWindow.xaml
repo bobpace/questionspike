@@ -141,24 +141,39 @@
   </Window.Resources>
 
   <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="30"/>
-      <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="400"/>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
 
-    <ItemsControl Grid.Row="0"
+    <StackPanel Grid.Column="0">
+      <ListBox ItemsSource="{Binding Scenarios}"
+               SelectionChanged="OnScenarioChanged"/>
+      
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <Button Grid.Column="0"
+                Content="Show Answers"
+                Click="GetAnswerSummary"/>
+        <Button Grid.Column="1"
+                Content="Reset"
+                Click="Reset"/>
+      </Grid>
+
+      <TextBlock Text="{Binding CurrentScenario.AnswerSummary}"
+                 TextWrapping="Wrap"/>
+    </StackPanel>
+    
+    
+    <ItemsControl Grid.Column="1"
                   Margin="10,0,10,10"
                   ItemTemplate="{StaticResource QuestionTemplate}"
-                  ItemsSource="{Binding Questions}">
+                  ItemsSource="{Binding CurrentScenario.Questions}">
     </ItemsControl>
-
-    <Button Grid.Row="1"
-            Content="Build Model"
-            Click="BuildModel"/>
     
-    <TextBlock Grid.Row="2"
-               Text="{Binding AnswerSummary}" />
-
   </Grid>
 </Window>

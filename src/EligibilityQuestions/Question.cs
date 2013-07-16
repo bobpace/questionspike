@@ -54,7 +54,18 @@ namespace EligibilityQuestions
             }
         }
 
-        public virtual IEnumerable<Question> ExtraAnsweredQuestions()
+        public void SetAnswerFromModel(object model)
+        {
+            Answer = Accessor.GetValue(model);
+        }
+
+        /// <summary>
+        /// Extra questions that relate to this question
+        /// Can change depending on the Answer if you need it to
+        /// They will be considered before NextQuestion in the question chain
+        /// </summary>
+        /// <returns></returns>
+        public virtual IEnumerable<Question> ExtraQuestions()
         {
             yield break;
         }
@@ -62,7 +73,7 @@ namespace EligibilityQuestions
         public virtual IEnumerable<Question> AnsweredQuestions()
         {
             //this question, followed by any extra answered questions, followed by the next question in the chains answered questions
-            var result = new[] {this}.Concat(ExtraAnsweredQuestions());
+            var result = new[] {this}.Concat(ExtraQuestions());
             if (NextQuestion != null)
             {
                 result = result.Concat(NextQuestion.AnsweredQuestions());

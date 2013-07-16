@@ -72,7 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionScenarioTests.cs" />
     <Compile Include="QuestionTests.cs" />
-    <Compile Include="ModelBuilderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EligibilityQuestions.Wpf\EligibilityQuestions.Wpf.csproj">
