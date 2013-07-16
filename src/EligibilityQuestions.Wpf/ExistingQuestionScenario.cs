@@ -86,7 +86,7 @@ namespace EligibilityQuestions.Wpf
             Questions = questions;
             AllQuestions =
                 questions.Concat(new Question[]
-                {employerCoverageEndDateQuestion, currentCoverageQuestion, militaryBenefitsQuestion});
+                {employerCoverageEndDateQuestion, currentCoverageQuestion, militaryBenefitsQuestion, medigapDateQuestion, maDateQuestion, mapdDateQuestion, pdpDateQuestion});
         }
 
         public override IEnumerable<object> ScenarioModels
