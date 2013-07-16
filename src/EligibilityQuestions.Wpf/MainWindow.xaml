@@ -21,8 +21,20 @@
 
     <DataTemplate DataType="{x:Type eligibilityQuestions:YesNoQuestion}">
       <StackPanel Grid.Row="1">
+        <StackPanel.Triggers>
+          <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation To="1"
+                                 From="0"
+                                 Duration="00:00:0.5"
+                                 Storyboard.TargetProperty="Opacity"/>
+              </Storyboard>
+            </BeginStoryboard>
+          </EventTrigger>
+        </StackPanel.Triggers>
 
-        <TextBlock Text="{Binding QuestionText}"
+          <TextBlock Text="{Binding QuestionText}"
                    Margin="5,5,5,0"
                    Style="{StaticResource HeaderStyle}">
         </TextBlock>
@@ -96,6 +108,18 @@
 
     <DataTemplate DataType="{x:Type eligibilityQuestions:DateTimeQuestion}">
         <StackPanel>
+         <StackPanel.Triggers>
+            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+              <BeginStoryboard>
+                <Storyboard>
+                  <DoubleAnimation To="1"
+                                   From="0"
+                                   Duration="00:00:0.5"
+                                   Storyboard.TargetProperty="Opacity"/>
+                </Storyboard>
+              </BeginStoryboard>
+            </EventTrigger>
+          </StackPanel.Triggers>
           <TextBlock Text="{Binding QuestionText}"
                      Style="{StaticResource HeaderStyle}"
                      Margin="5,5,5,0" />
@@ -116,6 +140,18 @@
 
     <DataTemplate DataType="{x:Type eligibilityQuestions:MultipleSelectQuestion}">
         <StackPanel>
+         <StackPanel.Triggers>
+          <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation To="1"
+                                 From="0"
+                                 Duration="00:00:0.5"
+                                 Storyboard.TargetProperty="Opacity"/>
+              </Storyboard>
+            </BeginStoryboard>
+          </EventTrigger>
+        </StackPanel.Triggers>
           <TextBlock Text="{Binding QuestionText}"
                      Margin="5,5,5,0">
             <TextBlock.Style>
