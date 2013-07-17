@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:eligibilityQuestions="clr-namespace:EligibilityQuestions;assembly=EligibilityQuestions"
         xmlns:controls="clr-namespace:EligibilityQuestions.Wpf.Controls"
-        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" 
+        xmlns:local="clr-namespace:EligibilityQuestions.Wpf"
         Title="MainWindow" Height="1200" Width="1600">
   <Window.Resources>
     
@@ -25,10 +26,7 @@
           <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard>
               <Storyboard>
-                <DoubleAnimation To="1"
-                                 From="0"
-                                 Duration="00:00:0.5"
-                                 Storyboard.TargetProperty="Opacity"/>
+                <local:QuestionFadeInAnimation Question="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}"/>
               </Storyboard>
             </BeginStoryboard>
           </EventTrigger>
@@ -112,10 +110,7 @@
             <EventTrigger RoutedEvent="FrameworkElement.Loaded">
               <BeginStoryboard>
                 <Storyboard>
-                  <DoubleAnimation To="1"
-                                   From="0"
-                                   Duration="00:00:0.5"
-                                   Storyboard.TargetProperty="Opacity"/>
+                  <local:QuestionFadeInAnimation Question="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}"/>
                 </Storyboard>
               </BeginStoryboard>
             </EventTrigger>
@@ -144,10 +139,7 @@
           <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard>
               <Storyboard>
-                <DoubleAnimation To="1"
-                                 From="0"
-                                 Duration="00:00:0.5"
-                                 Storyboard.TargetProperty="Opacity"/>
+                <local:QuestionFadeInAnimation Question="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}"/>
               </Storyboard>
             </BeginStoryboard>
           </EventTrigger>
